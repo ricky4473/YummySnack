@@ -1,0 +1,406 @@
+{% load static %}
+<section id="top-bar" class="sticky-top bg-light" >
+    <!-- <div  style="height: 30px;border-bottom: 1px solid #ddd;"> -->
+      <p id="toptitle" class="text-center" style="padding: 6px 0 ;border-bottom: 1px solid #ddd;margin-bottom: 0;">FREE SHIPPING</p>
+    <!-- </div> -->
+
+    <nav class="navbar navbar-expand-md navbar-light bg-light" >
+      <div class="container" style="justify-content: center;">
+        <a href="/" class="navbar-brand" >Yummy Snack
+          <img src="/static/img/wallpage-img/logo.gif" style="height: 70px;" alt="">
+        </a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <form action="/products" method="post" class="form-inline ml-auto" style="display: contents;">
+            <input name="filterdictfortype" type="text" class="form-control searchbar" style="width: 550px;margin-left: auto;" placeholder="Search for a product" />
+            <button type="submit " class="btn text-white serachbarbtn" style="background-color: #2e9900;">Search</button>
+            
+    
+            <div class="" style="position: absolute;">
+            <div class="" style="width: 632px;height:auto;background-color:#fff;position: absolute;top: 19px;z-index: 10;">
+              <ul class="list-group list-group-flush pl-2 d-none searchblock">
+                <li class="list-group-item"><a href="">An item</a></li>
+                <li class="list-group-item">A second item</li>
+                <li class="list-group-item">A third item</li>
+                <li class="list-group-item">A fourth item</li>
+                <li class="list-group-item">And a fifth one</li>
+              </ul>
+            </div>
+            </div>
+          </form>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a href="{% url 'feedback' %}" class="nav-link">Help</a></li>
+            <li class="nav-item"><a href="{% url 'about' %}" class="nav-link">About</a></li>
+            <li class="nav-item">
+              {% if user.is_authenticated %}<a href={% url 'accounts' %} class="nav-link">Account</a>{% else %}<a href={% url 'login' %} class="nav-link">Login</a>{% endif %}
+            </li>
+            
+              <li class="nav-item" style="display: flex;align-items: center;">
+                <a href="{% url 'cart' %}" class="nav-link">
+                <img class="float-left ml-0 pl-0" id="cart-icon" src="{% static 'images/cart.png' %}" alt=""></a>
+                <span id="cart-total" >{{cartitems}}</span>
+                </li>
+                
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="" style="font-size: 14px;background-color: #ff9900; justify-content: center; display: flex; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+      <style>
+        .nav>li{
+          display: flex;
+          align-items: center;
+        }
+        .nav>a{
+          font-weight: 300;
+        }
+        .nav-tabs .nav-item.show .nav-link{
+          background-color:#ddd ;
+        }
+        .newgray{
+          background-color:#ddd ;
+
+        }
+        /* .dropdown-menu{
+          top:-10px;
+        } */
+      </style>
+      <form action="/products" method="post" class="">
+      <ul class="nav nav-tabs catetopbar" style="height:51px;border-bottom: 0; ">
+        
+        <li class="nav-item dropdown font-weight-bold viewall dontshow" >
+          <input  type="submit" 
+          name='filterdict' value="{}"  hidden>
+        <a 
+          class="nav-link "
+          data-toggle="dropdown"
+          href="#"
+          role="button"
+          aria-expanded="false" style="
+          width: 100%;
+          height: 100%;
+          align-items: center;
+          display: flex;
+          border: none;
+          border-radius: 0;
+      ">All Products
+          
+        </a>
+        
+      </li>
+
+
+
+        <li class="nav-item dropdown font-weight-bold viewall" >
+          <input  type="submit" 
+          name='filterdict' value="{'product_class__id':10}"  hidden>
+        <a 
+          class="nav-link dropdown-toggle "
+          data-toggle="dropdown"
+          href="#"
+          role="button"
+          aria-expanded="false" style="
+          width: 100%;
+          height: 100%;
+          align-items: center;
+          display: flex;
+          border: none;
+          border-radius: 0;
+      ">Chocolate
+          
+        </a>
+        <div class="dropdown-menu">
+          
+          <a class='viewall dropdown-item'>Chinese
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':4,'product_class__id':10}"  hidden></a>
+          <a class='viewall dropdown-item'>Philippines
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':5,'product_class__id':10}"  hidden></a>
+          <a class='viewall dropdown-item'>Japanese
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':1,'product_class__id':10}"  hidden></a>
+          <a class='viewall dropdown-item'>Korean
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':3,'product_class__id':10}"  hidden></a>
+          <a class='viewall dropdown-item'>Southeast Asian
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':2,'product_class__id':10}"  hidden></a>
+          
+        </div>
+      </li>
+        <li class="nav-item dropdown font-weight-bold viewall" >
+          <input  type="submit" 
+          name='filterdict' value="{'product_class__id':4}"  hidden>
+        <a 
+          class="nav-link dropdown-toggle "
+          data-toggle="dropdown"
+          href="#"
+          role="button"
+          aria-expanded="false" style="
+          width: 100%;
+          height: 100%;
+          align-items: center;
+          display: flex;
+          border: none;
+          border-radius: 0;
+      ">Cookies
+          
+        </a>
+        <div class="dropdown-menu">
+          
+          <a class='viewall dropdown-item'>Chinese
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':4,'product_class__id':4}"  hidden></a>
+          <a class='viewall dropdown-item'>Philippines
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':5,'product_class__id':4}"  hidden></a>
+          <a class='viewall dropdown-item'>Japanese
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':1,'product_class__id':4}"  hidden></a>
+          <a class='viewall dropdown-item'>Korean
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':3,'product_class__id':4}"  hidden></a>
+          <a class='viewall dropdown-item'>Southeast Asian
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':2,'product_class__id':4}"  hidden></a>
+          
+        </div>
+      </li>
+        <li class="nav-item dropdown font-weight-bold viewall" >
+          <input  type="submit" 
+          name='filterdict' value="{'product_class__id':6}"  hidden>
+        <a 
+          class="nav-link dropdown-toggle "
+          data-toggle="dropdown"
+          href="#"
+          role="button"
+          aria-expanded="false" style="
+          width: 100%;
+          height: 100%;
+          align-items: center;
+          display: flex;
+          border: none;
+          border-radius: 0;
+      ">Chips
+          
+        </a>
+        <div class="dropdown-menu">
+          
+          <a class='viewall dropdown-item'>Chinese
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':4,'product_class__id':6}"  hidden></a>
+          <a class='viewall dropdown-item'>Philippines
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':5,'product_class__id':6}"  hidden></a>
+          <a class='viewall dropdown-item'>Japanese
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':1,'product_class__id':6}"  hidden></a>
+          <a class='viewall dropdown-item'>Korean
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':3,'product_class__id':6}"  hidden></a>
+          <a class='viewall dropdown-item'>Southeast Asian
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':2,'product_class__id':6}"  hidden></a>
+          
+        </div>
+      </li>
+        <li class="nav-item dropdown font-weight-bold viewall" >
+          <input  type="submit" 
+          name='filterdict' value="{'product_class__id':7}"  hidden>
+        <a 
+          class="nav-link dropdown-toggle "
+          data-toggle="dropdown"
+          href="#"
+          role="button"
+          aria-expanded="false" style="
+          width: 100%;
+          height: 100%;
+          align-items: center;
+          display: flex;
+          border: none;
+          border-radius: 0;
+      ">Sweets
+          
+        </a>
+        <div class="dropdown-menu">
+          
+          <a class='viewall dropdown-item'>Chinese
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':4,'product_class__id':7}"  hidden></a>
+          <a class='viewall dropdown-item'>Philippines
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':5,'product_class__id':7}"  hidden></a>
+          <a class='viewall dropdown-item'>Japanese
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':1,'product_class__id':7}"  hidden></a>
+          <a class='viewall dropdown-item'>Korean
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':3,'product_class__id':7}"  hidden></a>
+          <a class='viewall dropdown-item'>Southeast Asian
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':2,'product_class__id':7}"  hidden></a>
+          
+        </div>
+      </li>
+        <li class="nav-item dropdown font-weight-bold viewall" >
+          <input  type="submit" 
+          name='filterdict' value="{'product_class__id':8}"  hidden>
+        <a 
+          class="nav-link dropdown-toggle "
+          data-toggle="dropdown"
+          href="#"
+          role="button"
+          aria-expanded="false" style="
+          width: 100%;
+          height: 100%;
+          align-items: center;
+          display: flex;
+          border: none;
+          border-radius: 0;
+      ">Drinks
+          
+        </a>
+        <div class="dropdown-menu">
+          
+          <a class='viewall dropdown-item'>Chinese
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':4,'product_class__id':8}"  hidden></a>
+          <a class='viewall dropdown-item'>Philippines
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':5,'product_class__id':8}"  hidden></a>
+          <a class='viewall dropdown-item'>Japanese
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':1,'product_class__id':8}"  hidden></a>
+          <a class='viewall dropdown-item'>Korean
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':3,'product_class__id':8}"  hidden></a>
+          <a class='viewall dropdown-item'>Southeast Asian
+            <input  type="submit" 
+            name='filterdict' value="{'category__id':2,'product_class__id':8}"  hidden></a>
+          
+        </div>
+      </li>
+      <li class="nav-item dropdown font-weight-bold viewall" >
+        <input  type="submit" 
+        name='filterdict' value="{'product_class__id':9}"  hidden>
+      <a 
+        class="nav-link dropdown-toggle "
+        data-toggle="dropdown"
+        href="#"
+        role="button"
+        aria-expanded="false" style="
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        display: flex;
+        border: none;
+        border-radius: 0;
+    ">Cereal
+        
+      </a>
+      <div class="dropdown-menu">
+          
+        <a class='viewall dropdown-item'>Chinese
+          <input  type="submit" 
+          name='filterdict' value="{'category__id':4,'product_class__id':9}"  hidden></a>
+        <a class='viewall dropdown-item'>Philippines
+          <input  type="submit" 
+          name='filterdict' value="{'category__id':5,'product_class__id':9}"  hidden></a>
+        <a class='viewall dropdown-item'>Japanese
+          <input  type="submit" 
+          name='filterdict' value="{'category__id':1,'product_class__id':9}"  hidden></a>
+        <a class='viewall dropdown-item'>Korean
+          <input  type="submit" 
+          name='filterdict' value="{'category__id':3,'product_class__id':9}"  hidden></a>
+        <a class='viewall dropdown-item'>Southeast Asian
+          <input  type="submit" 
+          name='filterdict' value="{'category__id':2,'product_class__id':9}"  hidden></a>
+        
+      </div>
+    </li>
+      <li class="nav-item dropdown font-weight-bold viewall" >
+        <input  type="submit" 
+        name='filterdict' value="{'product_class__id':12}"  hidden>
+      <a 
+        class="nav-link dropdown-toggle "
+        data-toggle="dropdown"
+        href="#"
+        role="button"
+        aria-expanded="false" style="
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        display: flex;
+        border: none;
+        border-radius: 0;
+    ">Seasonal
+        
+      </a>
+      <div class="dropdown-menu">
+          
+        <a class='viewall dropdown-item'>Chinese
+          <input  type="submit" 
+          name='filterdict' value="{'category__id':4,'product_class__id':12}"  hidden></a>
+        <a class='viewall dropdown-item'>Philippines
+          <input  type="submit" 
+          name='filterdict' value="{'category__id':5,'product_class__id':12}"  hidden></a>
+        <a class='viewall dropdown-item'>Japanese
+          <input  type="submit" 
+          name='filterdict' value="{'category__id':1,'product_class__id':12}"  hidden></a>
+        <a class='viewall dropdown-item'>Korean
+          <input  type="submit" 
+          name='filterdict' value="{'category__id':3,'product_class__id':12}"  hidden></a>
+        <a class='viewall dropdown-item'>Southeast Asian
+          <input  type="submit" 
+          name='filterdict' value="{'category__id':2,'product_class__id':12}"  hidden></a>
+        
+      </div>
+    </li>
+        
+      </ul></form>
+
+      <script>
+        document.querySelector('.nav').addEventListener('mouseover',(e)=>{
+          if(e.target.classList.contains('nav-link')&&e.target.nextElementSibling){
+            
+
+
+          document.querySelectorAll('.dropdown-menu').forEach(item=>{
+         
+            item.previousElementSibling.classList.remove('newgray')
+            item.classList.remove('show')
+
+        
+        })
+
+
+
+            e.target.classList.add('newgray')
+          e.target.nextElementSibling.classList.add('show')
+
+}
+        })
+//         document.querySelector('.nav').addEventListener('mouseout',(e)=>{
+//           if(!(e.target.classList.contains('dropdown-menu')&&e.target.classList.contains('dropdown-item'))){
+//             e.target.classList.remove('newgray')
+//           e.target.nextElementSibling.classList.remove('show')
+
+// }
+//         })
+
+        document.querySelectorAll('.dropdown-menu').forEach(item=>{
+          item.addEventListener('mouseleave',e=>{
+            item.previousElementSibling.classList.remove('newgray')
+            item.classList.remove('show')
+
+          })
+        })
+        
+      </script>
+    </div>
+    <div class="backtop" style="position: fixed;bottom: 45px;right: 45px;"><i class="bi bi-arrow-up-square-fill" style="font-size: 45px;"></i></div>
+  </section>

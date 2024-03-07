@@ -1,0 +1,445 @@
+{% extends "base.html" %} {%load static%}
+ {% block content %}
+<section>
+  <style>
+    .card a {
+      width: 100%;
+    }
+    .card img {
+      width: 100%;
+      height: 324px;
+    }
+    .card-columns {
+      widows: 2;
+    }
+    .breadcrumb {
+      background-color: transparent;
+    }
+    .card {
+      border: none;
+    }
+    .labelc {
+      text-transform: uppercase;
+      position: absolute;
+      top: 7px;
+      left: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    .product-label {
+      border-radius: 35px;
+      margin-bottom: 10px;
+      max-width: 35px;
+      min-height: 35px;
+      font-size: 9px;
+      padding: 5px 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+    .product-label-long {
+      border-radius: 35px;
+      display: inline-table;
+      margin-bottom: 10px;
+      max-width: 30px;
+      min-height: 30px;
+      font-size: 7px;
+      padding: 5px 7px;
+      /* display: flex; */
+      /* align-items: center; */
+      /* justify-content: center; */
+      font-weight: 700;
+    }
+    .list-group li {
+      padding-left: 0;
+      border: 1px solid rgba(0, 0, 0, 0);
+    }
+    .triggerform + label:hover{
+      text-decoration: underline;
+          font-weight: 700;
+          color:#ff9900;
+        }
+        .triggerform:checked +label{
+          text-decoration: underline;
+          font-weight: 700;
+          color:#ff9900;
+        }
+  </style>
+  <div class="container">
+    <div class="row">
+      <form method="post" style="display: flex;">
+      {% csrf_token %}
+      <div class="mt-5 pt-3 col-lg-4">
+        <h1 class="text-uppercase">categories</h1>
+        <ul class="list-group list-group-flush categorieslist">
+          
+          {% for item in class %}
+          <li class="list-group-item" style="text-transform:capitalize;">
+            <input hidden type="radio" name="cid" value={{item.id}} id='id_cate_{{item.id}}' class="triggerform" {% if item.id == previouscate  %}checked{% endif %}>
+            <label for="id_cate_{{item.id}}"  >{{item.name}}</label>
+          </li>
+          {% endfor %}
+      
+        </ul>
+        <hr />
+        <h1 class="text-uppercase">filter by</h1>
+        <ul class="list-group list-group-flush brandlist">
+          {% for item in brands %}
+          <li class="list-group-item">
+            <input type="checkbox" name="bid" value="{{item.id}}" id="id_brand_{{item.id}}" class="triggerform" {% if item.id in previousbrand %}checked{% endif %}/>
+            <label for="id_brand_{{item.id}}" >{{item.name}}</label>
+          </li>
+          {% endfor %}
+          <style>
+            .list-group-item{
+              padding:.75rem 0 .75rem 1.25rem;
+            }
+          </style>
+         
+        </ul>
+        
+        <hr />
+        <h1 class="text-uppercase">filter by price</h1>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <input type="range" id="pricerange" class="triggerform" min="0" max="7" {% if pricerange %}value={{pricerange}}{% else %}value="0"{% endif %} name="pricerange"/>
+            <p class="pt-3">Price: {{pricerangetag}}</p>
+            <script>
+              document.querySelector('#pricerange').addEventListener('input',function(){
+                while (this.value== 0){
+
+                  this.nextElementSibling.innerHTML=`Price: Any`
+                  break
+                }
+        while (this.value== 1){
+          this.nextElementSibling.innerHTML=`Price: $0 - $10`
+            break
+        }
+            
+        while (this.value== 2){
+          
+          this.nextElementSibling.innerHTML=`Price: $10 - $20`
+          break
+        }
+        while (this.value== 3){
+
+          this.nextElementSibling.innerHTML=`Price: $20 - $30`
+          break
+        }
+        while( this.value== 4){
+
+          this.nextElementSibling.innerHTML=`Price: $30 - $40`
+          break
+        }
+        while (this.value== 5){
+
+          this.nextElementSibling.innerHTML=`Price: $40 - $50`
+          break
+        }
+        while (this.value== 6){
+
+          this.nextElementSibling.innerHTML=`Price: $50 - $100`
+          break
+        }
+        while (this.value== 7){
+
+          this.nextElementSibling.innerHTML=`Price: $100 or more`
+          break
+        }
+        })
+
+            </script>
+          </li>
+        </ul>
+      </div>
+      
+    
+
+      <div class="col-lg-8">
+        <div class="row mt-5 pt-3">
+          <div class="col-lg-5">
+            <nav class="" aria-label="breadcrumb">
+              <ol class="breadcrumb" >
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Products</li>
+              </ol>
+            </nav>
+          </div>
+          <div class="col-lg-7">
+            <div class= "bread2">
+              <style>
+                .nowrapul>li{
+                  white-space: nowrap;
+                }
+              </style>
+              <ul class="breadcrumb nowrapul" style="justify-content: flex-end;flex-wrap: nowrap;">
+                <li class="pr-3">Show: 
+                  <input type="radio" name="show" value="20" id="show20" {% if show == 20 or not show %}checked{% endif %} class="triggerform"/><label for="show20" >20</label>
+                  <input type="radio" name="show" value="40" id="show40" {% if show == 40 %}checked{% endif %} class="triggerform"/><label for="show40" >40</label>
+                  <input type="radio" name="show" value="100" id="show100" {% if show == 100 %}checked{% endif %} class="triggerform"/><label for="show100" >100</label>
+                
+                
+                
+                </li>
+                <li class="pr-3 svgpick">
+                  <a >
+                    <svg
+                    data-num="6"
+                      version="1.1"
+                      id="Layer_1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink"
+                      x="0px"
+                      y="0px"
+                      width="19px"
+                      height="19px"
+                      viewBox="0 0 19 19"
+                      enable-background="new 0 0 19 19"
+                      xml:space="preserve">
+                      <path d="M7,2v5H2V2H7 M9,0H0v9h9V0L9,0z"></path>
+                      <path d="M17,2v5h-5V2H17 M19,0h-9v9h9V0L19,0z"></path>
+                      <path d="M7,12v5H2v-5H7 M9,10H0v9h9V10L9,10z"></path>
+                      <path d="M17,12v5h-5v-5H17 M19,10h-9v9h9V10L19,10z"></path>
+                    </svg>
+                  </a>
+                  <a >
+                    <svg
+                    data-num="4"
+                      version="1.1"
+                      id="Layer_1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink"
+                      x="0px"
+                      y="0px"
+                      width="19px"
+                      height="19px"
+                      viewBox="0 0 19 19"
+                      enable-background="new 0 0 19 19"
+                      xml:space="preserve">
+                      <rect width="5" height="5"></rect>
+                      <rect x="7" width="5" height="5"></rect>
+                      <rect x="14" width="5" height="5"></rect>
+                      <rect y="7" width="5" height="5"></rect>
+                      <rect x="7" y="7" width="5" height="5"></rect>
+                      <rect x="14" y="7" width="5" height="5"></rect>
+                      <rect y="14" width="5" height="5"></rect>
+                      <rect x="7" y="14" width="5" height="5"></rect>
+                      <rect x="14" y="14" width="5" height="5"></rect>
+                    </svg>
+                  </a>
+                  <a >
+                    <svg
+                    data-num="3"
+                      version="1.1"
+                      id="Layer_1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink"
+                      x="0px"
+                      y="0px"
+                      width="19px"
+                      height="19px"
+                      viewBox="0 0 19 19"
+                      enable-background="new 0 0 19 19"
+                      xml:space="preserve">
+                      <rect width="4" height="4"></rect>
+                      <rect x="5" width="4" height="4"></rect>
+                      <rect x="10" width="4" height="4"></rect>
+                      <rect x="15" width="4" height="4"></rect>
+                      <rect y="5" width="4" height="4"></rect>
+                      <rect x="5" y="5" width="4" height="4"></rect>
+                      <rect x="10" y="5" width="4" height="4"></rect>
+                      <rect x="15" y="5" width="4" height="4"></rect>
+                      <rect y="15" width="4" height="4"></rect>
+                      <rect x="5" y="15" width="4" height="4"></rect>
+                      <rect x="10" y="15" width="4" height="4"></rect>
+                      <rect x="15" y="15" width="4" height="4"></rect>
+                      <rect y="10" width="4" height="4"></rect>
+                      <rect x="5" y="10" width="4" height="4"></rect>
+                      <rect x="10" y="10" width="4" height="4"></rect>
+                      <rect x="15" y="10" width="4" height="4"></rect>
+                    </svg>
+                  </a>
+                </li>
+                <li class=" dropdown">
+                  <!-- <a href="" class=" dropdown-toggle" data-toggle="dropdown">dropdown</a> -->
+                  <select class="triggerform" name="productorder">
+                    <!-- <a href="" class="dropdown-item">Best selling</a>
+                    <a href="" class="dropdown-item"> 2</a>
+                    <a href="" class="dropdown-item">Link 3</a> -->  
+                   
+                    {% for k,v in productorderdict.items %}
+                      
+                    <option value="{{k}}"
+                     {% if productorder == v.0 %}
+                     selected="selected"
+                    {% endif %}>
+                      {{v.1}}
+                    
+                    </option>{% endfor %}
+
+                    
+                    
+                  
+                  </select>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <style>
+          .card-body{
+            padding: 1.25rem 0;
+          }
+        </style>
+        <div class="row productcase">
+          <!-- <div class="pt-3"> -->
+            <!-- <div class=""> card-columns -->
+              <style>
+                .checked{
+                  color:orange;
+                }
+              </style>
+              {% for product in products %}
+              <div class="col-md-3 mt-3 text-center" style="display: flex;flex-direction: column;"><a href={% url "product" product.id %}> <!--card-->
+                <img src={{product.image}} alt="" style='width: 100%;aspect-ratio: 1/1;' /></a>
+                <!-- label -->
+                <div class="labelc">
+                  {% if product.new %}
+                  <span class="product-label" style="background-color: #438e44">New</span>
+                  {% endif %}
+
+                  {% if product.stock <= 0 %}
+                  <span style="background-color: #fff" class="product-label">Sold Out</span>
+
+                  {% endif %}
+                  {% for key,value in product.sale.items %}
+                  <span style="background-color: {% cycle '#e32619' '#ff9900'%}" class="product-label-long">{{key}}</span>
+                  
+                  {% endfor %}
+                </div>
+                <div class="card-body" style="display: flex;flex-direction: column;justify-content: space-evenly;">
+                  <h4 class="card-title"><a style="font-size: 16px;font-weight: 700;display: -webkit-box;overflow: hidden;-webkit-box-orient:vertical;-webkit-line-clamp:5;" href={% url "product" product.id %} title="{{product.title}}">{{product.title}}</a></h4>
+                  <input type="text" name="rating" value="{{product.rating}}" hidden>
+                  <h6 class="card-subtitle ratingbox">
+                    <span class="fa fa-star "></span>
+                    <span class="fa fa-star "></span>
+                    <span class="fa fa-star "></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                  </h6>
+                  {% if product.sale %}
+                  <h7 ><span style='text-decoration:line-through;'>$ {{product.price}} </span><span style='color:red;font-size:30px;white-space: nowrap;'>$ {{product.saleprice}}</span></h7>
+                  
+                  {% else %}
+                  <h5>$ {{product.price}}</h5>
+                  {% endif %}
+                  
+                </div>
+
+              <a href="#" class="btn update-cart" data-product={{product.id}} data-action="add" style='background-color:#006600;color:#fff;'>Add to cart</a>
+
+
+              </div>
+              {% endfor %}
+
+              {% if  productslength == 0 %}
+             <p>No product yet.</p> 
+              {% endif %}
+            <!-- </div> -->
+          <!-- </div> -->
+          <script>
+            document.querySelectorAll('.ratingbox').forEach(
+              function (item){ 
+                  console.log(item)
+                  console.log(item.previousElementSibling.value);
+                // const starnum=item.previousElementSibling.value
+                console.log(item.childNodes);
+                for(i=1;i<=item.previousElementSibling.value;i++){
+                  item.childNodes[2*i-1].classList.add('checked')
+                }
+
+
+
+              }
+            )
+          </script>
+       </div> 
+
+
+       <script>
+        document.querySelector('.svgpick').addEventListener('click',e=>{
+          console.log(e.target);
+          console.log(e.target.closest("SVG"));
+          // if(e.target.tagName=='SVG'){
+          if(e.target.closest("SVG")){
+           const svgnum= e.target.closest("SVG").dataset.num
+            console.log(svgnum);
+           document.querySelectorAll('.productcase>div').forEach(item=>{
+
+
+          ;['6','4','3'].forEach(inneritem=>{
+            if(item.classList.contains(`col-md-${inneritem}`)){
+              item.classList.remove(`col-md-${inneritem}`)
+            }
+
+          })
+          // const colcount=item.classList.contains('col-md-')
+          // console.log(colcount);
+          // item.classList.remove(colcount)
+          // console.log(svgnum);
+          item.classList.add(`col-md-${svgnum}`)
+          })
+          }
+
+          
+        })
+
+        
+
+       </script>
+       <style>
+        .pagination>.triggerform + label{
+          margin: 10px;
+        }
+        .pagination>.triggerform + label:hover{
+          text-decoration: underline;
+        }
+        #nowpage + label{
+          text-decoration: underline;
+          font-weight: 700;
+          color:#ff9900;
+        }
+       </style>
+        <ul class='pagination mt-3' style="justify-content: center;">
+        {{pagecode}}
+        </ul>
+        </div>
+        <script>
+          document.querySelectorAll('.pagination>.triggerform').forEach(item=>{
+            item.setAttribute('hidden',true)
+          })
+        </script>
+      <input type="submit" id='querysubmit' hidden>
+     
+        
+     
+    </form>
+
+    </div>
+  </div>
+</section>
+<script>
+  submit=document.querySelector('#querysubmit')
+  document.querySelectorAll('.triggerform').forEach(item=>{
+    item.addEventListener('change',()=>{
+      submit.click()})
+
+  })
+  document.querySelectorAll('.triggerformbychange').forEach(item=>{
+    item.addEventListener('change',()=>{submit.click()})
+  })
+ 
+</script>
+{% endblock content %}
+

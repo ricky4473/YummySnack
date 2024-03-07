@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
+<div class="container">
+
+    {% include "partial/_leftbar.html" %}
+    <div class="col-lg-8">
+       <div class="row">
+        <h1>付款成功 ， 3秒後返回首頁！</h1>
+
+       </div>
+  </div>
+<script>
+    setInterval(()=>{location.href='/'},3000)
+</script>
+    
+</div>
+{% endblock content %}

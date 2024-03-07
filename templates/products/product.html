@@ -1,0 +1,381 @@
+{% extends "base.html" %} {%load static%} 
+ {% block content %}
+{% for product in products %}
+
+<section>
+  <style>
+    .breadcrumb {
+      background-color: transparent;
+    }
+    .pd img {
+      width: 500px;
+      height: 500px;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  </style>
+  <div class="container">
+    <div class="row">
+      <nav class="pt-2 pb-2" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item"><a href="/products">Products</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{{product.title}}</li>
+        </ol>
+      </nav>
+    </div>
+    <style>
+      .labelc {
+        text-transform: uppercase;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        display: flex;
+        flex-direction: column;
+      }
+      .product-label {
+        border-radius: 35px;
+        margin-bottom: 10px;
+        max-width: 50px;
+        min-height: 50px;
+        font-size: 12px;
+        padding: 5px 7px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        text-align: center;
+      }
+    </style>
+    <div class="row">
+      <div class="col-lg-6 pd">
+        <div class="middle" style="position: relative">
+          <img
+            class=""
+            style="object-fit: cover"
+            src="{{product.image}}"
+            alt="" />
+          <!-- little box -->
+          <div
+            class="layer"
+            style="
+              width: 200px;
+              height: 200px;
+              background-color: rgba(0, 0, 0, 0.5);
+              position: absolute;
+              top: 0px;
+              display: none;
+            "></div>
+          <div class="labelc">
+            {% if product.new %}
+            <span class="product-label" style="background-color: #438e44">New</span>
+            {% endif %}
+
+            {% if product.stock <= 0 %}
+            <span style="background-color: #fff" class="product-label">Sold Out</span>
+
+            {% endif %}
+            {% for key,value in product.sale.items %}
+            <span style="background-color: {% cycle '#e32619' '#2e9900'%}" class="product-label">{{key}}</span>
+            
+            {% endfor %}  
+          
+          </div>
+          <!-- zoom part -->
+
+          <div
+            class="large"
+            style="
+              height: 500px;
+              width: 500px;
+              background-size: 1000px 1000px;
+              overflow: hidden;
+              background-color: #fff;
+              background-image: url({{product.image}});
+              position: absolute;
+              top: 0;
+              left: 500px;
+              z-index: 999;
+              display: none;
+            ">
+            <!-- <img src="https://source.unsplash.com/random/300*200" alt="" style="object-fit: cover;transform-origin:top left ;
+        transform:scale(2);">   -->
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <h1>{{product.title}}</h1>
+        {% if product.sale %}
+                  <h7 ><span style='text-decoration:line-through;'>$ {{product.price}} </span><span style='color:red;font-size:30px'>$ {{product.saleprice}}</span></h7>
+                  
+                  {% else %}
+                  <h5>$ {{product.price}}</h5>
+                  {% endif %}
+        
+        <p></p>
+        {% if product.stock ==  0 %}
+        <small>Out of Stock</small>
+        {%elif product.stock <= 5%}
+        <small>Only {{product.stock}} left in stock</small>
+        {% endif %}
+        <!-- number picker -->
+        <div class="mt-3 mb-3" style="display: flex">
+          <div class="input-group flex-nowrap" style="width: 180px">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="user-select: none" id="bm1">-1</span>
+            </div>
+            <input
+              type="number"
+              id="numberpicker"
+              value="1"
+              name="numberpicker"
+              aria-label="Username"
+              style="width: 40px; text-align-last: center" />
+
+            <div class="input-group-prepend">
+              <span
+                class="input-group-text"
+                style="
+                  user-select: none;
+                  border-top-right-radius: 0.25rem;
+                  border-bottom-right-radius: 0.25rem;
+                "
+                id="ba1">
+                +1
+              </span>
+            </div>
+          </div>
+          {% if product.stock <= 0 %}
+              <button class="btn " style='background-color:#808080;color:#fff;'>Sold Out</button>
+                {%else%}
+          <button data-product="{{product.id}}" data-action="addmany" class="btn btn-danger update-cart">Add to Cart</button>
+          {% endif %}
+        </div>
+        
+        <p>
+          <i class="bi bi-heart"></i>
+          <a href="">Add to wishlist</a>
+        </p>
+        <hr />
+        <form action="/products" method="post">
+        <span class="mb-2 mt-1 mr-2">Categories: </span>
+        <a class='viewall' style="display: inline;">{{product.class.name}}
+          <input  type="submit" 
+          name='filterdict' value='{"product_class__id":{{product.class.id}}}'  hidden>
+        </a> 
+        </form>
+        
+        <p>Share:<a href="#"><i class="bi bi-facebook"></i></a> <a href="#">
+                <i class="bi bi-twitter"></i>
+              </a></p>
+      </div>
+    </div>
+    <hr />
+    <div style="justify-content: center" class="row"><h1>DESCRIPTION</h1></div>
+    <div class="row">
+      
+      <div class="col" style="line-height: 30px;white-space:pre-line;">{{product.desc}}
+        <p style='line-height:15px'>{% for key,value in product.attrs.items %}
+          {{key}}:{{value}}
+          {% endfor %}</p>
+          <p>View full Terms of Service. Visit our <a href={% url "service" %}><b>Terms of Service</b></a>.</p>
+      </div>
+      
+    </div>
+    <div style="justify-content: center" class="row"><h1>REVIEWS</h1></div>
+    
+    <div class="container mb-3"  style="border: 1px solid #0000001a;">
+      <div class="row">
+        <div class="col mt-2"><h4>Customer Reviews</h4></div>
+      </div>
+      <div class="row pb-3" >
+
+        <div class="col-md-3" style='border-right: 1px solid #0000001a;'>
+          <input type="text" name="rating" value="{{product.rating}}" hidden>
+          <span class="card-subtitle ratingbox">
+            <span class="fa fa-star "></span>
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+        </span>
+        {% if comments|length > 0 %}
+        <div class="">Based on {{comments|length}} reviews</div>
+        {% else %}
+        <div class="">Dont have review yet.</div>
+        {% endif %}
+        </div>
+        <style>
+          .lit>.fa{
+            font-size: 10px;
+            margin-right:10px ;
+          }
+          
+        </style>
+        <div class="col-md-9 starstat">
+          
+          <div class="card-subtitle  lit star5" style="display: flex;align-items: center;">
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+        
+        
+          <span class="progress" style="width: 25% ;height:10px" >
+            <span class="progress-bar" role="progressbar" style="width: 25%;background-color: orange;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></span>
+          </span>
+       
+
+          <span class='per' style="margin:0 10px 0 10px ;color:#585858;">   0%</span>
+          <span class='num' style="color:#585858;">   (0)</span>
+
+
+
+        </div>
+        <div class="card-subtitle  lit star4"style="display: flex;align-items: center;">
+          <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star"></span>
+        <span class="progress" style="width: 25% ;height:10px" >
+          <span class="progress-bar" role="progressbar" style="width: 25%;background-color: orange;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></span>
+        </span>
+        <span class='per' style="margin:0 10px 0 10px ;color:#585858;">   0%</span>
+        <span class='num' style="color:#585858;">   (0)</span></div>
+      <div class="card-subtitle  lit star3"style="display: flex;align-items: center;">
+        <span class="fa fa-star checked"></span>
+      <span class="fa fa-star checked"></span>
+      <span class="fa fa-star checked"></span>
+      <span class="fa fa-star "></span>
+      <span class="fa fa-star "></span>
+      <span class="progress" style="width: 25% ;height:10px" >
+        <span class="progress-bar" role="progressbar" style="width: 25%;background-color: orange;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></span>
+      </span>
+      <span class='per' style="margin:0 10px 0 10px ;color:#585858;">   0%</span>
+      <span class='num' style="color:#585858;">   (0)</span></div>
+    <div class="card-subtitle lit star2"style="display: flex;align-items: center;">
+      <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    <span class="progress" style="width: 25% ;height:10px" >
+      <span class="progress-bar" role="progressbar" style="width: 25%;background-color: orange;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></span>
+    </span>
+    <span class='per' style="margin:0 10px 0 10px ;color:#585858;">   0%</span>
+    <span class='num' style="color:#585858;">   (0)</span></div>
+
+  <div class="card-subtitle  lit star1"style="display: flex;align-items: center;">
+  <span class="fa fa-star checked"></span>
+  <span class="fa fa-star"></span>
+  <span class="fa fa-star"></span>
+  <span class="fa fa-star"></span>
+  <span class="fa fa-star"></span>
+  <span class="progress" style="width: 25% ;height:10px" >
+    <span class="progress-bar" role="progressbar" style="width: 25%;background-color: orange;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></span>
+  </span>
+  <span class='per' style="margin:0 10px 0 10px ;color:#585858;">   0%</span>
+  <span class='num' style="color:#585858;">   (0)</span></div>
+
+        </div>
+        
+      </div>
+      
+      <div class="" style="border-bottom: 1px solid #eee;"></div>
+
+      {% for comment in comments %}
+      
+      
+      <div class="row reviewitem " style="display: block;height: 60px;padding:30px 0 80px 0">
+        <img  src="{{comment.usericon}}" style="height: 60px;width:60px;position:relative;float:left;" alt="">
+        <input type="text" name="rating" value="{{comment.rating}}" hidden>
+        <span class="card-subtitle ratingbox">
+          <span class="fa fa-star "></span>
+        <span class="fa fa-star "></span>
+        <span class="fa fa-star "></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+      </span>
+      <span>{{comment.day}}</span>
+      <div class="" style="display: block;padding-bottom: 1px;"></div>
+      <span>{{comment.name}}</span>
+      <div class="row mt-2" style="display: block; height:60px;">
+        <p style='overflow: hidden;white-space: nowrap;text-overflow: ellipsis;'>
+          {{comment.comment}}
+        </p>
+      </div>
+    </div>
+    {% endfor %}
+    
+    </div>
+    
+    
+  </div>
+  {% include "littlemodule.html" %}
+</section>
+{% endfor %}
+<script>
+  const numberpicker = document.querySelector('#numberpicker')
+  document.querySelector('#bm1').addEventListener('click', () => {
+    if (numberpicker.value > 1) numberpicker.value = +numberpicker.value - 1
+  })
+  document.querySelector('#ba1').addEventListener('click', () => {
+    numberpicker.value = +numberpicker.value + 1
+  })
+</script>
+<script>
+  const djangocomments={{comments|safe}}
+  const starObj={star1:{per:0,num:0},star2:{per:0,num:0},star3:{per:0,num:0},star4:{per:0,num:0},star5:{per:0,num:0}}
+  djangocomments.forEach((item)=>{
+    starObj[`star${item.rating}`].num+=1
+  })
+  
+  Object.keys(starObj).forEach(key=>{
+    starObj[key].per=parseInt(starObj[key].num*100/djangocomments.length)
+    document.querySelector(`.${key}>.per`).innerHTML=`${starObj[key].per | 0}%`
+    document.querySelector(`.${key}>.num`).innerHTML=`(${starObj[key].num})`
+    document.querySelector(`.${key}>.progress>.progress-bar`).style.width=`${starObj[key].per | 0}%`
+  })
+
+</script>
+<script>
+  const middle = document.querySelector('.middle')
+  const layer = document.querySelector('.layer')
+  const large = document.querySelector('.large')
+  middle.addEventListener('mouseover', function () {
+    layer.style.display = 'block'
+    large.style.display = 'block'
+  })
+  middle.addEventListener('mouseout', function () {
+    layer.style.display = 'none'
+    large.style.display = 'none'
+  })
+  middle.addEventListener('mousemove', function (e) {
+    const rect = this.getBoundingClientRect()
+    const x = e.pageX - rect.left
+    const y = e.pageY - rect.top - document.documentElement.scrollTop
+    if (x >= 0 && y >= 0 && x <= 500 && y <= 500) {
+      let mx = 0,
+        my = 0
+      if (x >= 0 && x < 100) mx = 0
+      if (x >= 100 && x < 400) mx = x - 100
+      if (x >= 400) mx = 300
+
+      if (y >= 0 && x < 100) my = 0
+      if (y >= 100 && y < 400) my = y - 100
+      if (y >= 400) my = 300
+
+      layer.style.left = mx + 'px'
+      layer.style.top = my + 'px'
+      large.style.backgroundPositionX = -1.66 * mx + 'px'
+      large.style.backgroundPositionY = -1.66 * my + 'px'
+    }
+  })
+
+</script>
+{% endblock content %}

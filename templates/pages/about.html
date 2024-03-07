@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
+<style>
+    #content>.container>img{
+      display: block;
+      margin: auto;
+      padding: 20px 0 0 0;
+    }
+    #content>.container{
+      border-radius:5px;
+        border: 1px solid #000;
+        background:linear-gradient(
+        rgba(255,255,255,.3),
+        rgba(255,255,255,.7)),
+        url({% static 'img/wallpage-img/img10.jpeg' %})
+     }
+  </style>
+   <section id="content">
+    <div class="container"  >
+<img src="{% static 'img/wallpage-img/com3.gif' %}" alt="Trulli" width="200" height="auto">
+<img src = {% static 'img/wallpage-img/com3.jpeg' %}>
+<img src="{% static 'img/wallpage-img/com.gif' %}" alt="Trulli" width="100" height="auto">
+<h3 style="font-size: 200x" class="text-success">Company Information</h3>
+<p class="text-warning">
+    Asian Yummy Yummy Snack company has been in business since 1965,
+    specializing in the import of Asian food products and has a long,
+    established history of customer satisfaction with competitive prices,
+    quality, and customer service. We strive to excel in customer service.
+    Products are purchased in Asia and the Orient but our offices are located
+    in northern, central and southern California, with strategically placed
+    stores and warehouses to help ensure product freshness. Satisfied
+    customers include DeCA (Defense Commissary Agency), food distributors,
+    food brokers, food wholesalers, supermarkets and restaurants. Through this
+    website, you too may be our customer. Welcome! Address: 6201 Coliseum Way
+    Suite A&B, Oakland, CA 94621
+  </p>
+  <br>
+<img src="{% static 'img/wallpage-img/com4.gif' %}" alt="Trulli" width="200" height="auto">
+<p class="text-danger">
+    When we decided to launch JustAsiansnack.com. The idea behind it was to
+    bring a vast selection of Asian products directly to your home. Now we
+    know anyone can just put items up onto a website. What we believe sets us
+    apart is the ability to bring our customers items from many different
+    regions across Asia.
+  </p>
+<br>
+<p class="text-danger">
+    We believe one of the best ways to experience a culture of another country
+    is through food. If you are interested in food from Korea but would love
+    to try some from Thailand, then JustAsianFood.com is perfect for you. On
+    our site you have the ability to explore Asia from the comfort of your
+    home. Our selection is large but also ever evolving. We will not just put
+    up the same items over and over again. New items will be added to the site
+    continually.
+  </p>
+<br>
+  <p class="text-danger">
+    And for those who miss home, let us at JustAsianFood.com bring the
+    memories of home back to you.</p>
+    <img src="{% static 'img/wallpage-img/company2.jpeg' %}" alt="Trulli" width="200" height="155" >
+
+    
+
+    </div>
+   </section>
+   <script>
+    document.querySelector('#toptitle').innerHTML=`Company Information`
+    </script>
+{% endblock content %}

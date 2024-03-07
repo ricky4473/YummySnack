@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
+<div class="container">
+
+    {% include "partial/_leftbar.html" %}
+    <div class="col-lg-8">
+       
+        <div class="row mb-3">
+          <h3>商品名稱 : {{nid}}</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">商品評價
+                </th>
+                <th scope="col">評分</th>
+                <th scope="col">評價日期</th>
+                <th scope="col">操作
+                </th>
+                
+              </tr>
+            </thead>
+            {% for obj in queryset %}
+            
+            
+            <tbody>
+              <tr>
+                <th scope="row"><a href="#">{{obj.comment}}</a></th>
+                <td>{{obj.rating}}</td>
+                <td>{{obj.comment_day}}</td>
+                
+                <td><a href={% url  'accounts_orderitemcommentedit' obj.id %}>edit</a>
+                    <a href={% url  'accounts_orderitemcommentdelete' obj.id %}>delete</a></td>
+              </tr>
+            </tbody>
+             {% endfor %}</table>
+        </div>
+
+      </div>
+  </div>
+
+    
+</div>
+{% endblock content %}
+
+
+
+{% for item in obj.orderitemscomment_set.all %}
+                <td>{{item.comment}}</td>
+                {% endfor %}

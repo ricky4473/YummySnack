@@ -1,0 +1,53 @@
+{% extends "base.html" %} {% block content %}
+<section>
+  <div class="container" style="width: 27%">
+    <h1 class="p-4 text-center">Login</h1>
+
+    <div class="alert info-box"></div>
+    <form method="post" id="form">
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="form-group">
+        {% if field.name == 'file' %}
+        <div class="custom-file"><input type="file" class="custom-file-input" id='custom'><label for="" class="custom-file-label"></label></div>
+        
+        {% else %}<label for="{{field.name}}">{{field.label}}</label>
+        {{field}}
+      </div>{% endif %}{% endfor %}
+      
+      <button class="loginbtn btn btn-success btn-block mt-4 mb-4">Submit</button>
+      <p class="text-center"><a href={% url "register" %}>Create account</a>  /  <a href={% url "password_reset" %}>   Fogot password</a></p>
+      <p class="text-center"></p>
+    </form>
+    {% comment %} <form method="post" id="form">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          name="email"
+          type="email"
+          class="form-control form-control-lg"
+          id="email"
+          placeholder="enter email" 
+          required
+          />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          name="password"
+          type="password"
+          class="form-control form-control-lg"
+          id="password"
+          placeholder="enter password"
+          required />
+      </div>
+      <button class="loginbtn btn btn-success btn-block mt-4 mb-4">Submit</button>
+      <p class="text-center"><a href="">Create account</a></p>
+    </form> {% endcomment %}
+  </div>
+</section>
+
+{% endblock content %} {% block js %}
+{% include "formvalidationjs.html" %}
+{% endblock js %}

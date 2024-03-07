@@ -1,0 +1,44 @@
+<script>
+    // <form id='form'> <button class='loginbtn ...'>
+    // myAlert <div class="alert info-box"></div>
+    function myAlert(status, msg) {
+      const alert = document.querySelector('.alert')
+      alert.classList.add(status ? 'alert-success' : 'alert-danger', 'show')
+      alert.innerHTML = msg
+  
+      setTimeout(() => {
+        alert.classList.remove(status ? 'alert-success' : 'alert-danger', 'show')
+        alert.innerHTML = ''
+       if( status )location.href="/"
+      }, 2500)
+    }
+  
+    domform = document.querySelector('#form')
+    document.querySelector('.loginbtn').addEventListener('click', async e => {
+      e.preventDefault()
+      const data = new FormData(domform)
+      try{const res = await axios({ url: '/accounts/login', method: 'post', data })
+      console.log(res)
+      myAlert(res.data.status, res.data.msg )}catch(error){
+        const errordict=error.response.data.msg
+        // Object.keys(errordict).forEach((item)=>{
+        //   // item email  , errordict[item] valuemsg
+        //   errordict[item]
+        //   document.querySelector(`#id_${item}`).previousElementSibling.innerHTML=errordict[item]
+          
+        // })
+        // setTimeout(()=>{
+        //   Object.keys(errordict).forEach((item)=>{
+        //   // item email  , errordict[item] valuemsg
+        //   errordict[item]
+        //   document.querySelector(`#id_${item}`).previousElementSibling.innerHTML=''
+          
+        // })
+        // },2000)
+        const errHtml=Object.keys(errordict).map((item)=>{
+          return item+" : "+errordict[item][0].replace(/this/i,'')}
+          ).join('<br>')
+        myAlert(0,errHtml)
+      }
+    })
+  </script>

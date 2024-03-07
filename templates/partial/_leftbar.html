@@ -1,0 +1,49 @@
+<style>
+  .list-group li {
+    padding-left: 0;
+    border: 1px solid rgba(0, 0, 0, 0);
+    background-color: inherit;
+  }
+</style>
+
+<div class="row pt-3 mt-5">
+  <div class="col-lg-4 pr-5" >
+    <h1 class="text-uppercase">My account</h1>
+    <div class="alert info-box" style='display:none'></div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><a href={% url 'orders' %}>Orders</a></li>
+      <li class="list-group-item"><a href={% url 'accounts' %}>Account details</a></li>
+      <li class="list-group-item"><a href={% url 'address' %}>Addresses</a></li>
+      <li class="list-group-item"><a href={% url 'membership'  %}>Membership</a></li>
+      {% if user.is_authenticated %}<li class="list-group-item logout"><a href="#"}>Logout</a></li>{% endif %}
+      {% if user.is_superuser %}<li class="list-group-item"><a href={% url 'management'  %}>Management</a></li>{% endif %}
+      {% if user.is_superuser %}<li class="list-group-item"><a href="/admin"  %}>Admin</a></li>{% endif %}
+      
+      <script>
+
+        const alert = document.querySelector('.alert')
+function myAlert(status, msg) {
+      alert.classList.add(status ? 'alert-success' : 'alert-danger', 'show')
+      alert.innerHTML = msg
+  
+      setTimeout(() => {
+        alert.classList.remove(status ? 'alert-success' : 'alert-danger', 'show')
+        alert.innerHTML = ''
+       if( status )location.href="/"
+      }, 2500)
+    }
+    document.querySelector('.logout').addEventListener('click', ()=>{
+
+      axios({url:'/accounts/logout'}).then(res=>{
+        console.log(res.data.status,res.data.msg);
+        alert.style.display='block'
+        document.cookie = "cart=" + JSON.stringify({}) + ";domain=;path=/"
+
+        myAlert(res.data.status,res.data.msg)
+      })
+    })
+      </script>
+    </ul>
+  </div>
+  <!-- -1 div -->
+

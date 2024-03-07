@@ -1,0 +1,274 @@
+{% extends "base.html"%} {% load static %} {% block content %}
+<div class="row">
+  <div class="col-lg-6">
+    <div class="box-element">
+      <form action="/checkout/address/edit/{{row_object.id}}" id="caeform" method="post">
+        <h3><i>Editing Address</i></h3>
+        <hr />
+        <p>Address Type:{{row_object.type}}</p>
+        <p id="shipdicttitle">Edit Address:{{row_object.title}}</p>
+        {% csrf_token %} {% for field in form %}
+        <div class="form-group">
+          <label for="id_{{field.name}}">{{field.label}}</label>
+          {{field}}
+        </div>
+        {% endfor %}
+
+        <hr />
+
+        <input
+          type="submit"
+          style="background-color: #ee3322"
+          class="text-white btn btn-block"
+          value="Save change" />
+      </form>
+    </div>
+  </div>
+  <br />
+
+  <div class="col-lg-6">
+    <div class="box-element">
+      <a href="{% url 'cart'%}" class="btn btn-outline-dark">back to cart</a>
+      <hr />
+      <h3><i>Order Summary</i></h3>
+      <hr />
+      {% for item in items %}
+      <div class="cart-row">
+        <!-- !back latter -->
+        <div style="flex: 2">
+          <img src="{{item.product.imageURL}}" width="60px" height="60px" alt="pic" />
+        </div>
+
+        <div style="flex: 2">{{item.product.name}}</div>
+        <!-- <div style="flex:1">{{item.product.price}}</div> -->
+
+        {% if item.product.saledict %}
+        <div style="flex: 2">
+          <span style="text-decoration: line-through">$ {{item.product.price}}</span>
+          <span style="color: red; font-size: 25px">$ {{item.product.saleprice}}</span>
+        </div>
+        {% else %}
+        <div style="flex: 1">{{item.product.price}}</div>
+        {% endif %}
+
+        <div style="flex: 1">x{{item.quantity}}</div>
+      </div>
+      {% endfor %} {% if order.get_cart_total_oringin != order.get_cart_total %}
+      <h5>
+        <i>
+          Total:
+          <span style="text-decoration: line-through">$ {{order.get_cart_total_oringin}}</span>
+        </i>
+        <span style="color: red; font-size: 25px">$ {{order.get_cart_total}}</span>
+      </h5>
+      {% else %}
+
+      <h5><i>Total:$ {{order.get_cart_total}}</i></h5>
+      {% endif %} {% if ismember %}
+      <span class="ml-3 mr-3" style="color: red; font-size: 25px; font-weight: 700">
+        會員額外九折優惠
+      </span>
+      {% endif %} {% if order.voucher %}
+      <span class="ml-3" style="color: red; font-size: 25px; font-weight: 700">
+        {{order.voucher.name}}
+      </span>
+      {% endif %}
+    </div>
+    <form action="/processorder" method="post" id="coform">
+      {% csrf_token %}
+      <div class="mt-3 box-element">
+        <br />
+        <h3><i>Choose Shipping & Billing Address</i></h3>
+
+        <h5>Shipping Address</h5>
+        <select name="shipping" id="shippingselect">
+          {% for item in shippingdict %}
+
+          <option value="{{item.id}}">{{item.title}}</option>
+          {% endfor %}
+        </select>
+        <h5>Billing Address</h5>
+        <select name="billing" id="billingselect">
+          {% for item in billingdict %}
+
+          <option value="{{item.id}}">{{item.title}}</option>
+          {% endfor %}
+        </select>
+        <hr />
+
+        <script>
+
+    document.querySelector('#caeform').addEventListener('submit',function(e){
+        e.preventDefault()
+      axios({
+              url: this.action,
+              method: 'post',
+              data:new FormData(this)
+            }).then(res=>{console.log(res);
+              this.innerHTML = `<h3><i>Editing Address</i></h3>
+<hr><p >Address Type:<span style='color:red;'>${res.data.row_obj_dict.type}</span></p><p id="shipdicttitle">Edit Address:${res.data.row_obj_dict.title}</p>${res.data.form}  <hr />
+<input
+  type="submit"
+  style="background-color: #ee3322"
+  class="text-white btn btn-block"
+  value="Save change" />`
+                  // document.querySelector('.errorlist').style
+            
+            })
+              })
+          const shipbillfn = function () {
+            console.log(this.value)
+            axios({
+              url: `/checkout/address/edit/${this.value}`,
+              method: 'get',
+              data: { id: this.value },
+            }).then(res => {
+              document.querySelector('#caeform').innerHTML = `<h3><i>Editing Address</i></h3>
+<hr><p >Address Type:<span style='color:red;'>${res.data.row_obj_dict.type}</span></p><p id="shipdicttitle">Edit Address:${res.data.row_obj_dict.title}</p>${res.data.form}  <hr />
+<input
+  type="submit"
+  style="background-color: #ee3322"
+  class="text-white btn btn-block"
+  value="Save change" />`
+              document.querySelector('#caeform').action = `/checkout/address/edit/${this.value}`
+              
+            })
+          }
+          document.querySelectorAll('#shippingselect , #billingselect').forEach(item => {
+            item.addEventListener('change', shipbillfn)
+
+            let option_counter = 0
+            for (obj in item.childNodes) {
+              if (obj.tagName == 'OPTION') {
+                option_counter += 1
+              }
+            }
+            if (option_counter < 2) {
+              item.addEventListener('click', shipbillfn)
+            }
+          })
+        </script>
+        <input
+          type="submit"
+          id="form-button"
+          style="background-color: #2e9900"
+          class="text-white btn btn-block"
+          value="Continue" />
+
+        <div class="box-element hidden" id="payment-info" style="margin: auto">
+          <small>Paypal Option</small>
+          <!--paybutton-->
+          <!-- <button class="btn" style="background-color:#2e9900; color:white" id="make-payment">Payment</button>-->
+          <div id="paypal-button-container" style="padding-left: 140px"></div>
+
+          <div class="" style="display: flex; justify-content: center">
+            <button class="mt-2 btn" style="margin: auto" onclick="gotoPay(event)">
+              Pay by Stripe
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  var form = document.getElementById('coform')
+  form.addEventListener('submit', function (e) {
+    e.preventDefault()
+    document.getElementById('form-button').classList.add('hidden')
+    document.getElementById('payment-info').classList.remove('hidden')
+  })
+
+  // document.getElementById("make-payment").addEventListener("click", function (e) {
+  //     submitformdata()
+  // })
+
+  function submitformdata() {
+    var data = new FormData(form)
+    data.append('total', total)
+    url = '/processorder/'
+    fetch(url, {
+      method: 'POST',
+      body: data,
+    })
+      .then(res => {
+        return res.json()
+      })
+      .then(res => {
+        console.log(res)
+        cart = {}
+        document.cookie = 'cart=' + JSON.stringify(cart) + ';domain=;path=/'
+        // window.location.href = "/"
+      })
+  }
+</script>
+<script src="https://www.paypal.com/sdk/js?client-id=AeoDE0HpLIHm9c85eO6bJlhi_syzxf-GVJzjhhNlgFXvvVBoyOvLo9pWZbfdXT1Cn1s6qB24ss75FfQT&currency=HKD"></script>
+
+<!-- AeoDE0HpLIHm9c85eO6bJlhi_syzxf-GVJzjhhNlgFXvvVBoyOvLo9pWZbfdXT1Cn1s6qB24ss75FfQT -->
+<script>
+  paypal
+    .Buttons({
+      style: {
+        color: 'silver',
+        shape: 'pill',
+      },
+
+      createOrder: function (data, actions) {
+        return actions.order.create({
+          purchase_units: [
+            {
+              amount: {
+                value: parseFloat(total).toFixed(2),
+              },
+            },
+          ],
+        })
+      },
+      onApprove: function (data, actions) {
+        return actions.order.capture().then(function (details) {
+          submitformdata()
+        })
+      },
+    })
+    .render('#paypal-button-container')
+</script>
+
+<!--stripe-->
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  function gotoPay(event) {
+    const form = document.querySelector('#coform')
+    const data = new FormData(form)
+    data.append('total', total)
+    for (var pair of data.entries()) {
+    // console.log(pair[0]+ ', ' + pair[1]); 
+}
+    const stripe = Stripe('{{pub_key}}')
+    axios({
+      url: '/processorder/',
+      method: 'post',
+      data:data,
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'X-CSRFToken': '{{csrf_token}}',
+    //   },
+    })
+      .then(res => {
+        console.log(res)
+        return stripe.redirectToCheckout({ sessionId: res.data.session.id })
+      })
+      .then(res => {
+        if (res.error) {
+          console.dir(res)
+          alert(result.error.message)
+        }
+      })
+
+      .catch(error => {
+        alert(error)
+      })
+  }
+</script>
+
+{% endblock content%}

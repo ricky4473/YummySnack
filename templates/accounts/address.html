@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
+<div class="container">
+
+    {% include "partial/_leftbar.html" %}
+    <div class="col-lg-8">
+        <div class="row mb-3">
+          <h3>送貨地址</h3><a class="btn " href="{%url 'address_add' 1 %}">新增</a>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">次序
+                </th>
+                <th scope="col">姓名
+                </th>
+                <th scope="col">聯絡電話
+                </th>
+                <th scope="col">地址</th>
+                <th scope="col">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in addressshipping %}
+              
+              <tr>
+                <th scope="row"><a href="{% url 'address_edit' item.id %}">{{item.priority}}</a></th>
+                <td>{{item.first_name}} {{item.last_name}}</td>
+                <td>{{item.phone}}</td>
+                <td>{{item.street_address_1}}</td>
+                <td><a class="btn " href="{% url 'address_edit' item.id %}">編輯</a>{% if item.priority != 1 %}<a class="btn " href="{%url 'address_delete' item.id %}">刪除</a>{% endif %}</td>
+              </tr> {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        
+        
+        
+        <div class="row mb-3">
+          <h3>帳單地址</h3><a class="btn " href="{%url 'address_add' 2 %}">新增</a>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">次序
+                </th>
+
+                <th scope="col">姓名
+                </th>
+                <th scope="col">聯絡電話
+                </th>
+                <th scope="col">地址</th>
+                <th scope="col">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in addressbilling %}
+              <tr>
+                <th scope="row"><a href="{% url 'address_edit' item.id %}">{{item.priority}}</a></th>
+                <td>{{item.first_name}} {{item.last_name}}</td>
+                <td>{{item.phone}}</td>
+                <td>{{item.street_address_1}}</td>
+                <td><a class="btn " href="{% url 'address_edit' item.id %}">編輯</a>{% if item.priority != 1 %}<a class="btn " href="{%url 'address_delete' item.id %}">刪除</a>{% endif %}</td>
+              </tr>{% endfor %}
+            </tbody>
+          </table>
+        </div>
+        
+
+      </div>
+  </div>
+
+    
+</div>
+{% endblock content %}

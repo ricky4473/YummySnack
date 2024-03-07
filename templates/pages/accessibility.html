@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
+<style>
+    #content>.container>img{
+      display: block;
+      margin: auto;
+      padding: 20px 0 0 0;
+    }
+    #content>.container>p,#content>.container>ul>li{
+        line-height: 40px;
+    }
+    #content>.container{
+        border-radius:5px;
+        border: 1px solid #000;
+        background:linear-gradient(
+        rgba(255,255,255,.3),
+        rgba(255,255,255,.3)),
+        url({% static 'img/wallpage-img/img.jpeg' %});
+        
+     }
+     .d-inlines{
+        line-height: normal!important;
+     }
+    
+  </style>
+   <section id="content">
+    <div class="container" >
+<img src="{% static 'img/wallpage-img/acc.gif' %}" alt="Trulli" width="800" height="auto">
+<p class="d-inlines bg-success mt-3">Our Digital Accessibility Pledge</p>
+ <p class="text-warning">JustAsianFood.com considers digital accessibility a vital subject to consider in today's digital landscape. Ensuring that our platform is navigable, actionable, and consumable by people with varying physical and cognitive impairments is important to us. As such, we've set forth a clear plan to not only achieve, but maintain digital accessibility conformance over time, meeting Web Content Accessibility Guidelines (WCAG) 2.1, Level A and AA, and complying with Americans with Disabilities Act (ADA) effective communication requirements and other applicable regulations.</p>
+<img src="{% static 'img/wallpage-img/snack.jpeg' %}" alt="Trulli" width="300" height="auto">
+<p class="text-warning">To accomplish this, we have partnered with eSSENTIAL Accessibility to administer our accessibility program and oversee its governance. Their accessibility program evaluates our digital products on an ongoing basis in accordance with best practices and is supported by a diverse team of accessibility professionals, including users of assistive technologies. The platform, moreover, goes beyond minimum compliance requirements by making an assistive CX technology application available to customers who have trouble typing, gesturing, moving a mouse, or reading. The application is free to download, and it incorporates tools such as mouse and keyboard replacements, voice recognition, speech enablement, hands-free/touch-free navigation, and more.
+<br>
+We want to hear from you if you encounter any accessibility barriers on our digital properties. Please contact our Customer Support at support@justasianfood.com.
+<br>
+Sincerely,
+The Just Asian Food team</p>
+<img src="{% static 'img/wallpage-img/end.gif' %}" alt="Trulli" width="300" height="auto" class="mb-3">
+
+        
+        
+    <a style="
+    display: flex;
+    justify-content: center;
+    " href="{% url 'index' %}">Home</a>
+ 
+
+    </div>
+   </section>
+   <script>
+    document.querySelector('#toptitle').innerHTML=`Accessibility`
+    </script>
+{% endblock content %}

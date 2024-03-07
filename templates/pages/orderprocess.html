@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
+<style>
+    #content>.container>img{
+      display: block;
+      margin: auto;
+      padding: 20px 0 0 0;
+    }
+    #content>.container>p,#content>.container>ul>li{
+        line-height: 40px;
+    }
+    /* #content>.container{
+        border-radius:5px;
+        border: 1px solid #000;
+        background:linear-gradient(
+        rgba(255,255,255,.3),
+        rgba(255,255,255,.3)),
+        url({% static 'img/wallpage-img/img10.jpeg' %});
+        
+     }
+     .d-inlines{
+        line-height: normal!important;
+     } */
+     #content>.container{
+        border-radius:5px;
+        border: 1px solid #000;
+        background:no-repeat linear-gradient(
+        rgba(255,255,255,.3),
+        rgba(255,255,255,.3)),
+     url({% static 'img/wallpage-img/moon.jpeg' %});
+       background-repeat: no-repeat;
+       background-size: cover;}
+
+     .d-inlines{
+        line-height: normal!important;
+        
+     }
+    
+  </style>
+   <section id="content">
+    <div class="container" >
+   <img src="{% static 'img/wallpage-img/or1.gif' %}" alt="Trulli"  height="auto">
+   <p class="d-inlines bg-success mt-3">1.登入 Yummy Snack Accounta -   點擊左上角 Account</p>
+    <img src="{% static 'img/wallpage-img/order1.avif'%}" alt="Trulli" width="45%">
+    <p class="d-inlines bg-success mt-3">2.點擊訂單紀錄</p>
+    <img src="{% static 'img/wallpage-img/order2.avif'%}" alt="Trulli" width="45%">
+    <p class="d-inlines bg-success mt-3">3.處理中的訂單</p>
+    <img src="{% static 'img/wallpage-img/order2.avif'%}" alt="Trulli" width="45%">
+    <p class="d-inlines bg-success mt-3">4.交易成功</p>
+    <img src="{% static 'img/wallpage-img/order4.avif'%}" alt="Trulli" width="45%">
+
+    <iframe style="display: flex;margin: 0 auto;" class="mt-5" width="560" height="315" src="https://www.youtube.com/embed/FbBU-ATJNKU?si=C7b6vBtJHIFF0ZhK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+    <a style="
+    display: flex;
+    justify-content: center;
+    
+    " href="{% url 'index' %}" class="mt-3">Home</a>
+
+    </div>
+   </section>
+   <script>
+    document.querySelector('#toptitle').innerHTML=`Order`
+    </script>
+{% endblock content %}

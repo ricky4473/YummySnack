@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
+<style>
+    #content>.container>img{
+      display: block;
+      margin: auto;
+      padding: 20px 0 0 0;
+    }
+    #content>.container>p,#content>.container>ul>li{
+        line-height: 40px;
+    }
+    #content>.container{
+        border-radius:5px;
+        border: 1px solid #000;
+        background:linear-gradient(
+        rgba(255,255,255,.3),
+        rgba(255,255,255,.3)),
+        url({% static 'img/wallpage-img/cat1.jpeg' %});
+        
+     }
+     .d-inlines{
+        line-height: normal!important;
+     }
+    
+  </style>
+   <section id="content">
+    <div class="container" >
+    <img src ="{% static 'img/wallpage-img/text.gif' %}" alt="Trulli" width="300" height="auto">
+     <p class="d-inlines bg-danger mt-3" >如何回報商品問題</p>
+     <ul>
+     <li> 如簽收時發現商品有任何損毀或錯漏，請先以照片記錄貨品情況及於收貨後7日內透過系統回報有關商品問題</li>
+     <li> 您只需依照指示選取有關貨品，並提供相關資料（包括貨品問題類別、貨品問題詳情、相片等），即可遞交申請。系統將會
+      即時向您發出電郵 / 訊息以作確認。此自動化系統會比一般客服跟進更快完成退款 / 換貨程序。個案於2-3天內完成審批後，
+     我們會透過「訊息」或電郵通知您回報結果。</li></ul>
+   <p class="d-inlines bg-success">可退貨商品</p>
+
+
+   <p >如商品中列明「可退貨」，您可於收貨日起七天內提出退貨要求並與Yummy snack mall預約回收商品(部份商戶或需於更
+短時間內回收)，您亦可選擇自行將商品退還至您所選擇的門市。
+請保留及退回所有包裝，包括所有Yummy snackmall包裝箱、貨品原裝包裝盒、商品原標籤、吊牌、證明文件、廠商保證
+書、說明書、贈品及全部配件等，並保證所有包裝在完好無損的狀態下退回。貨品上的標籤或吊牌亦必須保持完整，如有破壞或折曲則
+不可退換。若貨品已經組裝，請確保其組裝狀態與購買時一致；如貨品的包裝及組裝狀態不符合以上情況，將未能作出退換貨品的安排。
+當我們成功回收相關商品後，我們會盡快回覆您的商品是否符合退貨要求。如符合要求，我們會按照客人所選的退款方式退回至付款帳
+戶或 Yummy snackmall帳戶內 (金額以您的訂單中顯示之價格為準)，詳情請參閱確認電郵。</p>
+
+<p class="d-inlines bg-success">注意事項：</P>
+    <img src="{% static 'img/wallpage-img/text7_files/demo_s(2).gif' %}" alt="Trulli" width="200" height="auto">
+    <p>
+        1. 一張訂單只可進行一次退貨。
+        <br>
+        2. 購買可退貨商品時所使用的 Mall Dollar，我們會全數退還，但因訂單總額未滿指定金額而支付的運費及訂單中使用之優惠券都將不予發還。
+        <br>
+        3. 若未能於七天內回收貨品，將保留取消退還貨品的權利。
+        <br>
+        4. 任何已開封、已使用或因個人原因而造成任何損壞的商品均不可退換。
+    </p>
+<img src="{% static 'img/wallpage-img/re2.gif'%}" alt="Trulli" width="200" height="auto">
+<p class="d-inlines bg-danger mt-3">不可退貨商品</p>
+<p class="font-weight-bold">不可退貨商品會於產品說明頁面上會列明此商品不可退款或不可更換。</p>
+<p class="font-weight-bold">如簽收時發現商品有任何損毀、錯漏或品質問題希望申請退換，請先以照片記錄貨品情況並於收貨天起7天內透過系統回報有關商品問題。</p>
+<img src="{% static 'img/wallpage-img/re1.gif'%}" alt="Trulli" width="200" height="auto">
+<p class="d-inlines bg-success mt-3">可退貨商品</p>
+<ul>
+    <li>如商品中列明「可退貨」，您可於收貨日起七天內提出退貨要求並與Yummy snackmall 預約回收商品(部份商戶或需於更短時間內回
+    收)，您亦可選擇自行將商品退還至您所選擇的門市。</li>
+    <li>請保留及退回所有包裝，包括所有包裝箱、貨品原裝包裝盒、商品原標籤、吊牌、證明文件、廠商保證書、說明書、贈品及全部配件等，並保證所有包裝在完好無損的狀態下退回。
+    </li>
+    <li>貨品上的標籤或吊牌亦必須保持完整，如有破壞或折曲則不可退換。若貨品已經組裝，請確保其組裝狀態與購買時一致；如貨品的包裝及組裝狀態不符合以上情況，將未能作出退換貨品的安排。
+    </li>
+    <li>當我們成功回收相關商品後，我們會盡快回覆您的商品是否符合退貨要求。如符合要求，我們會按照客人所選的退款方式退回至付款帳戶或 
+    Yummy Snack 帳戶內 (金額以您的訂單中顯示之價格為準)，詳情請參閱確認電郵。</ul>
+    <img src="{% static 'img/wallpage-img/end.gif' %}" alt="Trulli" width="300" height="auto" class="mb-3">
+    <a style="
+    display: flex;
+    justify-content: center;
+    " href="{% url 'index' %}">Home</a>
+ 
+
+    </div>
+   </section>
+   <script>
+    document.querySelector('#toptitle').innerHTML=`Refund`
+    </script>
+{% endblock content %}

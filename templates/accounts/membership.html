@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
+<div class="container">
+
+    {% include "partial/_leftbar.html" %}
+    <div class="col-lg-8">
+        <div class="row mb-3">
+            <div class="col">
+          {% if request.user.membership %}
+          
+          <h3>會員狀態 : 已成為會員</h3>
+          <h3>你可以有額外九折優惠</h3>
+          {% else %}
+        
+          
+          <h3>會員狀態 : 非會員</h3> 
+        <h3>付款 $100 即可享有額外九折優惠</h3>
+        <div class="">
+            <button class="mt-2 " onclick="gotoPay(event)">立即申請</button>
+        </div>  {% endif %} 
+</div>
+        </div>
+        
+       
+
+      </div>
+  </div>
+
+    
+</div>
+<!--stripe-->
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+function gotoPay(event){
+    const stripe= Stripe('{{pub_key}}')
+    axios({
+        url:'/accounts/membership',
+        method:'post',
+        headers:{
+            'Content-Type':'application/json',
+            'X-CSRFToken':'{{csrf_token}}'
+        }
+    }).then(res=>{
+
+        console.log(res);
+        return stripe.redirectToCheckout({sessionId:res.data.session.id})
+    }).then(res=>{
+        if(res.error){
+            alert(result.error.message)
+        }
+    })
+    
+    .catch(error=>{
+        alert(error);
+    })
+
+
+}
+
+</script>
+{% endblock content %}

@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
+<div class="container">
+
+    {% include "partial/_leftbar.html" %}
+    <div class="col-lg-8">
+      
+      <div class="formalert alert info-box d-none" ></div>
+          {% if data_dict %}
+          <script>
+             function myAlert(status, msg,ms=2500) {
+    const formalert = document.querySelector('.formalert')
+    formalert.classList.remove("d-none")
+    formalert.classList.add(status ? 'alert-success' : 'alert-danger', 'show')
+    formalert.innerHTML = msg
+    document.querySelector('.backtop').click()
+    setTimeout(() => {
+      formalert.classList.remove(status ? 'alert-success' : 'alert-danger', 'show')
+      formalert.classList.add("d-none")
+      formalert.innerHTML = ''
+     if( status )location.href="/"
+    }, ms)
+  }
+            myAlert({{data_dict.status}},"{{data_dict.msg}}")
+          </script>
+          {% endif %}
+      
+        <div class="row mb-3">
+          
+          <h3>帳戶資料</h3>
+          <div class="container pl-0">
+            <form method='post' enctype='multipart/form-data' id='form'>
+            {% csrf_token %}
+            {% for field in form %} <div class="form-group">
+             
+              {{field.}}
+              {{field.label_tag}} <span style="color: red;">{{field.errors.0}}</span>
+              {{field}}
+              </div>
+            {%endfor%}
+    
+            
+    
+          
+    
+           
+    
+            
+            <button class="editbtn btn btn-primary btn-block" type="submit">submit</button>
+          </form> </div>
+        </div>
+        <script>
+          const imgurl=document.querySelector('#form>.form-group>a')
+          const newdomobj=document.createElement('div')
+          newdomobj.innerHTML=`Avatar:<img src='${imgurl}' style="width:10%;">`
+          document.querySelector('#form').insertBefore(newdomobj,document.querySelector('[name="csrfmiddlewaretoken"]'))
+
+        </script>
+
+      </div>
+  </div>
+
+    
+</div>
+{% endblock content %}
+
+{% block js %}
+<script>
+  document.querySelectorAll('input').forEach(item=>{
+    item.required=false
+  })
+  // function myAlert(status, msg) {
+  //   const alert = document.querySelector('.alert')
+  //   alert.classList.add(status ? 'alert-success' : 'alert-danger', 'show')
+  //   alert.innerHTML = msg
+
+  //   setTimeout(() => {
+  //     alert.classList.remove(status ? 'alert-success' : 'alert-danger', 'show')
+  //     alert.innerHTML = ''
+  //     {% comment %} !back latter {% endcomment %}
+  //    if( status )location.href="/"
+  //   }, 2500)
+  // }
+  {% comment %} domform = document.querySelector('#form')
+    document.querySelector('.editbtn').addEventListener('click', async e => {
+      e.preventDefault()
+      const data = new FormData(domform)
+      console.log(data)
+      try{const res = await axios({ url: '/accounts', method: 'post', data })
+      console.log(res)
+      myAlert(res.data.status, res.data.msg )}catch(error){
+        console.dir(error)
+        const errordict=error.response.data.msg
+        const errHtml=Object.keys(errordict).map((item)=>{
+          return item+" : "+errordict[item][0].replace(/this/i,'')}
+          ).join('<br>')
+        myAlert(0,errHtml)
+      }
+    }) {% endcomment %}
+  
+  
+
+</script>
+
+{% endblock js %}

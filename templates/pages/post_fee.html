@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
+<style>
+    table, th, td {
+  border: 5px solid DodgerBlue; 
+}
+    #content>.container>img{
+      display: block;
+      margin: auto;
+      padding: 20px 0 0 0;
+    }
+    #content>.container>p,#content>.container>ul>li{
+        line-height: 40px;
+    }
+    /* #content>.container{
+        border-radius:5px;
+        border: 1px solid #000;
+        background:linear-gradient(
+        rgba(255,255,255,0),
+        rgba(255,255,255,0)),
+        url({% static 'img/wallpage-img/img2.jpeg' %});
+        
+     }
+     .d-inlines{
+        line-height: normal!important;
+     } */
+     #content>.container{
+        border-radius:5px;
+        border: 1px solid #000;
+        background:linear-gradient(
+        rgba(255,255,255,0),
+        rgba(255,255,255,0)),
+        url({% static 'img/wallpage-img/girl2.webp' %});
+        
+    background-repeat: no-repeat;
+    background-size: cover;
+
+        
+     }
+     .d-inlines{
+        line-height: normal!important;
+     }
+    
+  </style>
+   <section id="content">
+    <div class="container" >
+ <h1 class="mt-2" >運費計算</h1>
+ <p style="color:orange;">所有直送海外的產品，將由 Yummy Snackmall負責安排香港本地運送服務，然後透過其他物流公司負責海外派遞。</p>
+<p>
+<p style="color:DodgerBlue;">客人於 Yummy Snackmall 選擇直送海外的派送服務，將需要支付「本地運費」及「海外運費及稅項 (如有)」兩部分。</p>
+<hr style="border-bottom: 1px solid #000;">
+<h1 style="color:red;">本地運送服務</h1>
+<p style="color:orange;">客人於 YummgSnackmall 選購直送海外的產品，結帳時所顯示的本地運費跟現時</p>
+<h4 style="color:yellow;">Yummysnackmall 的運費計算一樣如下，直至另行通知：</h4>
+<table style="width:100% height:auto;">
+    <tr>
+      <th>Yummysnackmall 會員種類</th>
+      <th>普通會員</th>
+      <th>VIP / Gold VIP 會員</th>
+    </tr>
+    <tr>
+      <th>免運費金額</th>
+      <td>M帳單總額* 滿 HK$500</td>
+      <td>HK$40</td>
+    </tr>
+    <tr>
+      <th>本地運費</th>
+      <td>帳單總額* 滿 HK$350</td>
+      <td>HK$40</td>
+    </tr>
+  </table>
+  <hr style="border-bottom: 1px solid #000;">
+  <h1 style="color:green;">海外運費及稅項</h1>
+  <p>海外運費及稅項 (如有) 將由其他物流公司收取，當客人在送貨地址選擇海外送貨地區之後，可以揀選其中一間物流公司負責派遞，而客人可於付款前預先在結帳頁面內查閱「海外運費預算」。</p>
+  <h1 style="color:DodgerBlue;">請留意</h1>
+  <ul>
+  <li>海外運送與本地運送不同，除貨品實際重量外，亦會按照貨品連包裝的體積重量（同樣以公斤顯示）計算所需運費，以實際重量或體積重量之較
+    高者為準。有關體積重量的計算方法，請參閱以下的運費計算詳情。</li>
+    <li>例子：原箱薯片，實際重量約2 kg，體積重量約10 kg。由於體積重量較大，海外運費會以體積重量（10kg）計算。</li>
+    <li>「預計海外運費」是根據系統中商戶所提供的貨品重量及尺寸所計算。貨品於到達HKTVmall 倉庫後，會由專人重新包裝後重新量度包裹的實際
+    重量及體積重。因此，訂單的實際海外運費與結帳頁面所顯示的「預計海外運費」或會有所出入。</li>
+    <li>如客人認為「預計海外運費」或「預計貨品重量或體積重」計算有誤，可點擊下面按鈕聯絡我們。我們可能會要求客人提供相關訂單及商品截圖
+    等資料以便進一步核實和處理。</li></ul>
+<img src="{% static 'img/wallpage-img/demo_s(3).gif' %}" alt="Trulli" width="200" height="auto">
+
+  <hr style="border-bottom: 1px solid #000;">
+
+<h1 style="color:yellow;">負責直送海外之物流公司的運費計算價格如下：</h1>
+<p style="color:orange;">關於進口增值稅 (Import VAT) 及關稅之稅項徵收，將視乎實際情況及當地海關之判斷。於一般情況下，有關包裹總申報價值之徵收條件如下</p>
+<table style="width:100% height:auto">
+    <thead>
+      <tr>
+        <th>直送國家</th>
+        <th>包裹總申報價值</th>
+        <th>徵收進口增值稅 </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>英國</th>
+        <td>135英鎊或以上</td>
+        <td>✅</td>
+      </tr>
+      <tr>
+        <th>英國</th>
+        <td>低於135英鎊</td>
+        <td>*有可能徵收</td>
+      </tr>
+    
+   
+      <tr>
+        <th>澳洲</th>
+        <td>1000澳元或以上</td>
+        <td>✅</td>
+      </tr>
+      <tr>
+        <th>澳洲</th>
+      <td>低於1000澳元</td>
+      <td>*有可能徵收</td>
+    </tr>
+   </tbody>
+  </table>
+
+  <hr style="border-bottom: 1px solid #000;">
+
+  <iframe style="display: flex;margin: auto;" width="560" height="315" src="https://www.youtube.com/embed/GE3VTKuTE6U?si=njaOm_MWB6TIaRTR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+  <img src="{% static 'img/wallpage-img/end.gif' %}" alt="Trulli" width="300" height="auto" class="mb-3"> 
+
+        
+        
+        
+    <a style="
+    display: flex;
+    justify-content: center;
+    " href="{% url 'index' %}">Home</a>
+ 
+
+    </div>
+   </section>
+   <script>
+    document.querySelector('#toptitle').innerHTML=`Post Fee`
+    </script>
+{% endblock content %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
+<div class="container">
+
+    {% include "partial/_leftbar.html" %}
+    <div class="col-lg-8">
+       
+        <div class="row mb-3">
+          <h3>訂單編號 : {{accounts_order.id}}</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">商品名稱
+                </th>
+                <th scope="col">商品數量
+                </th>
+                <th scope="col">商品價格</th>
+                <th scope="col">評價</th>
+              </tr>
+            </thead>
+            {% for obj in accounts_order.ordereditem_set.all %}
+            
+            
+            <tbody>
+              <tr>
+		      <th scope="row"><a href="{% url 'product' obj.product.id %}">{{obj.product.name}}</a></th>
+                <td>{{obj.quantity}}</td>
+                <td>{{obj.product.price}}</td>
+                
+                <td><a href={% url 'accounts_orderitemcomments' obj.id %}>查看</a><a href={% url  'accounts_orderitemcommentadd' obj.id %}>新增</a></td>
+              </tr>
+            </tbody>
+             {% endfor %}</table>
+        </div>
+
+      </div>
+  </div>
+
+    
+</div>
+{% endblock content %}
+
+
+
+{% for item in obj.orderitemscomment_set.all %}
+                <td>{{item.comment}}</td>
+                {% endfor %}

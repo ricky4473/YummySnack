@@ -1,0 +1,34 @@
+
+          {% csrf_token %}
+          {% for field in form %}<div class="form-group"> 
+           {{field.label_tag}}<span style="color: red;">{{field.errors.0}}</span>
+            {{field}}
+        </div>{% endfor %}
+
+
+        {{ formset.management_form }}
+          {% for form in formset %}
+          {% if forloop.counter == 1 %}
+          <h3>Default Shipping Address:</h3>
+         <input type="checkbox"  id="usesameinfos"><label for="usesameinfos">Use Register User Infomation</label>
+         <br>
+            {% else %}
+
+            <h3>Default Billing Address:</h3>
+          <input type="checkbox" name="usesameaddress" id="usesameaddress" value="1" >
+          <label for="usesameaddress">Same as Shipping Address</label>
+          <br>
+          <input type="checkbox"  id="usesameinfob"><label for="usesameinfob">Use Register User Infomation</label>
+         {% endif %}
+         {% for field in form %}
+         {% if field.name != "id" %}
+         <div class="form-group"> 
+         {{field.label_tag}}<span style="color: red;">{{field.errors}}</span>
+          {{field}}
+        </div>{% endif %}
+          {% endfor %}
+          {% endfor %}
+          <button class="regbtn btn btn-success btn-block mt-4 mb-4">Create account</button>
+          <p class="text-center"><a href={%url "login" %}>Login Account</a></p>
+
+        

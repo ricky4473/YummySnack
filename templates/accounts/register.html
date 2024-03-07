@@ -1,0 +1,142 @@
+{% extends "base.html" %} {% block content %}
+
+
+<section>
+    <div class="container" style="width: 27%;">
+          <h1  class='p-4 text-center'>Register</h1>
+          
+          <div class="alert info-box"></div>
+          {% if data_dict %}
+          <script>
+             function myAlert(status, msg,ms=2500) {
+    const alert = document.querySelector('.alert')
+    alert.classList.add(status ? 'alert-success' : 'alert-danger', 'show')
+    alert.innerHTML = msg
+    document.querySelector('.backtop').click()
+    setTimeout(() => {
+      alert.classList.remove(status ? 'alert-success' : 'alert-danger', 'show')
+      alert.innerHTML = ''
+     if( status )location.href="/"
+    }, ms)
+  }
+            myAlert({{data_dict.status}},"{{data_dict.msg}}")
+          </script>
+          {% endif %}
+        <form method="post" id='form' enctype="multipart/form-data">
+          {% csrf_token %}
+          {% for field in form %}<div class="form-group"> 
+           {{field.label_tag}}<span style="color: red;">{{field.errors.0}}</span>
+            {{field}}
+        </div>{% endfor %}
+
+
+        {{ formset.management_form }}
+          {% for form in formset %}
+          {% if forloop.counter == 1 %}
+          <h3>Default Shipping Address:</h3>
+         <input type="checkbox"  id="usesameinfos"><label for="usesameinfos">Use Register User Infomation</label>
+         <br>
+            {% else %}
+
+            <h3>Default Billing Address:</h3>
+          <input type="checkbox" name="usesameaddress" id="usesameaddress" value="1" >
+          <label for="usesameaddress">Same as Shipping Address</label>
+          <br>
+          <input type="checkbox"  id="usesameinfob"><label for="usesameinfob">Use Register User Infomation</label>
+         {% endif %}
+         {% for field in form %}
+         {% if field.name != "id" %}
+         <div class="form-group"> 
+         {{field.label_tag}}<span style="color: red;">{{field.errors.0}}</span>
+          {{field}}
+        </div>{% endif %}
+          {% endfor %}
+          {% endfor %}
+          <input type='submit' class="regbtn btn btn-success btn-block mt-4 mb-4" value="Create account">
+          <p class="text-center"><a href={%url "login" %}>Login Account</a></p>
+
+        
+        </form>
+      </div>
+    
+  </section>
+
+   
+  
+{% endblock content %}
+{% block js %}
+<script>
+
+  document.querySelectorAll('#usesameinfos,#usesameinfob').forEach((item,index)=>{item.addEventListener('change',function(){
+    console.log(index)
+    document.querySelector(`#id_form-${index}-first_name`).value=''
+    document.querySelector(`#id_form-${index}-last_name`).value=''
+    document.querySelector(`#id_form-${index}-phone`).value=''
+    if(this.checked){
+    document.querySelector(`#id_form-${index}-first_name`).value=document.querySelector('#id_first_name').value
+    document.querySelector(`#id_form-${index}-last_name`).value=document.querySelector('#id_last_name').value
+    document.querySelector(`#id_form-${index}-phone`).value=document.querySelector('#id_phone').value
+    }})})
+
+    document.querySelector('#usesameaddress').addEventListener('change',function(){
+        const addressTagName=["first_name","last_name","phone","country_or_area","street_address_1","street_address_2","company_name"]
+        
+        
+        addressTagName.forEach(item=>{
+          document.querySelector(`#id_form-1-${item}`).value=""
+        })
+        if(this.checked){
+        addressTagName.forEach(item=>{
+          document.querySelector(`#id_form-1-${item}`).value=document.querySelector(`#id_form-0-${item}`).value
+        })}
+        
+
+    })
+    document.querySelectorAll('input').forEach(item=>{
+      item.required=false
+    })
+ 
+</script>
+<script>
+  function myAlert(status, msg,ms=2500) {
+    const alert = document.querySelector('.alert')
+    alert.classList.add(status ? 'alert-success' : 'alert-danger', 'show')
+    alert.innerHTML = msg
+    document.querySelector('.backtop').click()
+    setTimeout(() => {
+      alert.classList.remove(status ? 'alert-success' : 'alert-danger', 'show')
+      alert.innerHTML = ''
+     if( status )location.href="/"
+    }, ms)
+  }
+  {% comment %} 
+  domform = document.querySelector('#form')
+    document.querySelector('.regbtn').addEventListener('click', async e => {
+      console.log(10)
+      e.preventDefault()
+      const data = new FormData(domform)
+      try{const res = await axios({ url: '/accounts/register', method: 'post', data }
+      )
+      console.log(10)
+      console.log(res)
+      myAlert(res.data.status, res.data.msg )}catch(error){
+        console.log(error);
+        console.log(typeof(error.response.data));
+        document.querySelector('#form').innerHTML=error.response.data
+        document.querySelector('.backtop').click()
+        const domeve=document.createEvent('Event')
+        domeve.initEvent('DOMContentLoaded',true,true)
+        document.dispatchEvent(domeve)
+
+      }
+    })
+  
+
+document.querySelector('#id_avatar').addEventListener('change',e=>{
+ console.log(e.target.files);
+ console.log(e.target.files[0]);
+
+
+}){% endcomment %}
+</script>  
+{% endblock js %}
