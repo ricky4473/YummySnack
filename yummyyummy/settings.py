@@ -15,7 +15,7 @@ SECRET_KEY = 'django-insecure-vza@p_o_578c17@b02zb2=7r6piqkgvq2k=400h_5%pgm5cv$0
 DEBUG = True
 
 ALLOWED_HOSTS = ["192.168.31.136",
-                 "167.172.68.96", "yummysnack.com", "127.0.0.1"]
+                 "167.172.68.96", "yummysnack.com", "127.0.0.1","localhost"]
 
 
 # Application definition
@@ -30,6 +30,15 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     # "django_browser_reload",
     'pages.apps.PagesConfig',
+    'apis.apps.ApisConfig',
+    'corsheaders',
+    'rest_framework',
+]
+
+#most important cors support
+CORS_ORIGIN_WHITELIST = [
+    'http://127.0.0.1:3000',
+    'http://localhost:3000',
 ]
 
 MIDDLEWARE = [
@@ -44,6 +53,7 @@ MIDDLEWARE = [
     # "django_browser_reload.middleware.BrowserReloadMiddleware",
     "yummyyummy.middleware.online_count.OnlineCountMiddleware",
     "yummyyummy.middleware.online_count.IPtoDBMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 CACHES = {
