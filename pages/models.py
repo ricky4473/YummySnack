@@ -492,3 +492,9 @@ class Feedback(models.Model):
 
     def __str__(self):
         return f'{self.title}'
+    
+
+class Notification(models.Model):
+    time=models.DateTimeField(auto_now_add=True)
+    order=models.ForeignKey(Order,on_delete=models.DO_NOTHING)
+    read_status=models.BooleanField(default=False)

@@ -72,7 +72,6 @@
                     }).then(res=>{
                         const vouchermsg=document.querySelector('.vouchermsg')
                         vouchermsg.innerHTML=res.data.msg
-                        console.log(res);
                     }).catch(error=>{
                         console.dir(error)
                     })

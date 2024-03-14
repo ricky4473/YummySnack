@@ -927,29 +927,9 @@ def processorder(request):
         billing_address_id = request.POST.get('billing')
         order.billing_address.id = billing_address_id
         order.shipping_address.id = shipping_address_id
-        # row_object=models.Address.objects.get(type=1,priority=1,user=user.id)
-        # form=AddressModelForm(instance=row_object,data=request.POST)
     else:
         return JsonResponse({"status": False, "msg": 'please login or register account'})
-        # form=AddressModelForm(data=request.POST)
-        # email=request.POST.get('email')
-        # phone=request.POST.get('phone')
-        # cookiedata = cookiecart(request)
-        # user, created = models.User.objects.get_or_create(
-        #     email=email, phone=phone,password=make_password('000000')
-        # )
-        # user.save()
-        # order = models.Order.objects.create(
-        #     user=user,
-        #     complete=False
-        # )
-        # for item in cookiedata["items"]:
-        #     product = models.Product.objects.get(id=item["product"]["id"])
-        #     orderitem = models.Orderitem.objects.create(
-        #         product=product,
-        #         order=order,
-        #         quantity=item["quantity"]
-        #     )
+        
 
     if request.method == "POST":
         # stripe part
@@ -972,18 +952,6 @@ def processorder(request):
             item["quantity"] = str(obj.quantity)
 
             finalitems.append(item)
-        # items= [{
-
-        #     'price_data':{
-        #         'currency':'hkd',
-        #         'product_data':{
-        #             'name':'candy79',
-        #         }
-        #         ,'unit_amount':'3200', #32.00
-
-        #     },
-        #     'quantity':'59',
-        # }]
         percent_off = {}
         if request.user.membership:
             percent_off['percent_off'] = 10
@@ -1004,9 +972,6 @@ def processorder(request):
         if percent_off.get('percent_off'):
             coupon = stripe.Coupon.create(**percent_off)
             tmpdict["discounts"] = [{"coupon": coupon.get('id')}]
-        # stripe.Coupon.create(percent_off=50,duration="once",)
-        # print(stripe.Coupon.create(percent_off=50,duration="once",))
-        # tmpdict['discounts']=stripe.Coupon.create(percent_off=50,duration="once",)
         session = stripe.checkout.Session.create(**tmpdict)
         payment_intent = session.payment_intent
 
@@ -1015,9 +980,9 @@ def processorder(request):
         order.total = order.get_cart_total
         order.paid_time = timezone.now()
         vtotal = float(order.get_cart_total)
-        if total == vtotal:
-            order.cartcomplete = True
+        order.cartcomplete = True
         order.save()
+        models.Notification.objects.create(order_id=order.id)
 
         return JsonResponse({'session': session, 'payment_intent': payment_intent})
 

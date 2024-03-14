@@ -35,7 +35,6 @@ function myAlert(status, msg) {
     document.querySelector('.logout').addEventListener('click', ()=>{
 
       axios({url:'/accounts/logout'}).then(res=>{
-        console.log(res.data.status,res.data.msg);
         alert.style.display='block'
         document.cookie = "cart=" + JSON.stringify({}) + ";domain=;path=/"
 

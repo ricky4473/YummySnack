@@ -117,7 +117,6 @@
             })
               })
           const shipbillfn = function () {
-            console.log(this.value)
             axios({
               url: `/checkout/address/edit/${this.value}`,
               method: 'get',
@@ -196,7 +195,6 @@
         return res.json()
       })
       .then(res => {
-        console.log(res)
         cart = {}
         document.cookie = 'cart=' + JSON.stringify(cart) + ';domain=;path=/'
         // window.location.href = "/"
@@ -255,7 +253,6 @@
     //   },
     })
       .then(res => {
-        console.log(res)
         return stripe.redirectToCheckout({ sessionId: res.data.session.id })
       })
       .then(res => {

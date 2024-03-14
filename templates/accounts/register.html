@@ -68,7 +68,6 @@
 <script>
 
   document.querySelectorAll('#usesameinfos,#usesameinfob').forEach((item,index)=>{item.addEventListener('change',function(){
-    console.log(index)
     document.querySelector(`#id_form-${index}-first_name`).value=''
     document.querySelector(`#id_form-${index}-last_name`).value=''
     document.querySelector(`#id_form-${index}-phone`).value=''
@@ -112,16 +111,11 @@
   {% comment %} 
   domform = document.querySelector('#form')
     document.querySelector('.regbtn').addEventListener('click', async e => {
-      console.log(10)
       e.preventDefault()
       const data = new FormData(domform)
       try{const res = await axios({ url: '/accounts/register', method: 'post', data }
       )
-      console.log(10)
-      console.log(res)
       myAlert(res.data.status, res.data.msg )}catch(error){
-        console.log(error);
-        console.log(typeof(error.response.data));
         document.querySelector('#form').innerHTML=error.response.data
         document.querySelector('.backtop').click()
         const domeve=document.createEvent('Event')
@@ -133,8 +127,6 @@
   
 
 document.querySelector('#id_avatar').addEventListener('change',e=>{
- console.log(e.target.files);
- console.log(e.target.files[0]);
 
 
 }){% endcomment %}

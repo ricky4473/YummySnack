@@ -351,10 +351,7 @@
           <script>
             document.querySelectorAll('.ratingbox').forEach(
               function (item){ 
-                  console.log(item)
-                  console.log(item.previousElementSibling.value);
                 // const starnum=item.previousElementSibling.value
-                console.log(item.childNodes);
                 for(i=1;i<=item.previousElementSibling.value;i++){
                   item.childNodes[2*i-1].classList.add('checked')
                 }
@@ -369,12 +366,9 @@
 
        <script>
         document.querySelector('.svgpick').addEventListener('click',e=>{
-          console.log(e.target);
-          console.log(e.target.closest("SVG"));
           // if(e.target.tagName=='SVG'){
           if(e.target.closest("SVG")){
            const svgnum= e.target.closest("SVG").dataset.num
-            console.log(svgnum);
            document.querySelectorAll('.productcase>div').forEach(item=>{
 
 

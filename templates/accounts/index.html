@@ -86,9 +86,7 @@
     document.querySelector('.editbtn').addEventListener('click', async e => {
       e.preventDefault()
       const data = new FormData(domform)
-      console.log(data)
       try{const res = await axios({ url: '/accounts', method: 'post', data })
-      console.log(res)
       myAlert(res.data.status, res.data.msg )}catch(error){
         console.dir(error)
         const errordict=error.response.data.msg

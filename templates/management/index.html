@@ -1099,7 +1099,6 @@ axios({
    url:'/management_livevisitor',
    method:'post',
  }).then(res=>{
-  console.log(res);
    if(myChart.data.datasets[0].data.length >=7){
      myChart.data.labels.shift()
      myChart.data.datasets[0].data.shift()

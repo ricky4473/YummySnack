@@ -364,43 +364,35 @@
       </ul></form>
 
       <script>
+        //in-part
         document.querySelector('.nav').addEventListener('mouseover',(e)=>{
-          if(e.target.classList.contains('nav-link')&&e.target.nextElementSibling){
-            
-
-
+          if(e.target.nextElementSibling&&e.target.classList.contains('nav-link')){
           document.querySelectorAll('.dropdown-menu').forEach(item=>{
-         
             item.previousElementSibling.classList.remove('newgray')
             item.classList.remove('show')
-
-        
         })
-
-
-
             e.target.classList.add('newgray')
           e.target.nextElementSibling.classList.add('show')
-
 }
         })
-//         document.querySelector('.nav').addEventListener('mouseout',(e)=>{
-//           if(!(e.target.classList.contains('dropdown-menu')&&e.target.classList.contains('dropdown-item'))){
-//             e.target.classList.remove('newgray')
-//           e.target.nextElementSibling.classList.remove('show')
-
-// }
-//         })
-
+        //out-part
         document.querySelectorAll('.dropdown-menu').forEach(item=>{
           item.addEventListener('mouseleave',e=>{
             item.previousElementSibling.classList.remove('newgray')
             item.classList.remove('show')
-
           })
+        })
+        //top-nav-out-part
+        document.querySelector('nav').addEventListener('mouseover',()=>{
+
+          document.querySelectorAll('.dropdown-menu').forEach(item=>{
+            item.previousElementSibling.classList.remove('newgray')
+            item.classList.remove('show')
+        })
         })
         
       </script>
+
     </div>
     <div class="backtop" style="position: fixed;bottom: 45px;right: 45px;"><i class="bi bi-arrow-up-square-fill" style="font-size: 45px;"></i></div>
   </section>

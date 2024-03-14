@@ -5,7 +5,6 @@
     const data = { keywords }
     try {
       const res = await axios({ url: '/', method: 'POST', data })
-      console.log(res)
 
       const htmlStr = JSON.parse(res.data)
         .map(item => {
@@ -14,9 +13,7 @@
         .join('')
       searchblock.innerHTML = htmlStr
       searchblock.classList.remove('d-none')
-      console.log(res)
     } catch (error) {
-      console.dir(error)
     }
   })
 
@@ -68,7 +65,6 @@ const csrftoken = getToken('csrftoken');
 //cart.js
 // every page
 var updatebtn = document.getElementsByClassName('update-cart')
-console.log(updatebtn);
 for (var i = 0; i < updatebtn.length; i++) {
     updatebtn[i].addEventListener('click', function () {
         var productid = this.dataset.product   
@@ -76,7 +72,6 @@ for (var i = 0; i < updatebtn.length; i++) {
         if (user === "AnonymousUser") {
             if(action=="addmany"){
                 const qty=+document.querySelector('#numberpicker').value
-                console.log(qty);
                 addcookieitem(productid, action,qty)
             }else{
             addcookieitem(productid, action)}
@@ -91,7 +86,6 @@ for (var i = 0; i < updatebtn.length; i++) {
 }
 
 function addcookieitem(productid, action,qty=0) {
-    console.log("not logged in...")
     if (action == "add") {
         if (cart[productid] == undefined) {
             cart[productid] = { 'quantity': 1 }
@@ -102,7 +96,6 @@ function addcookieitem(productid, action,qty=0) {
     if (action == "remove") {
         cart[productid]['quantity'] -= 1
         if (cart[productid]['quantity'] <= 0) {
-            console.log('remove item')
             delete cart[productid]
         }
     }
@@ -116,13 +109,11 @@ function addcookieitem(productid, action,qty=0) {
             cart[productid]['quantity'] += qty
         }
     }
-    console.log('cart:', cart)
     document.cookie = "cart=" + JSON.stringify(cart) + ";domain=;path=/"
     location.reload()
 }
 
 function updateorder(productid, action,qty=0) {
-    console.log("logging in, sending data...")
 
     var url = '/updateitem/'
 
@@ -139,7 +130,6 @@ function updateorder(productid, action,qty=0) {
             return response.json()
         })
         .then((data) => {
-            console.log('data:', data)
             location.reload()
         })
 }
@@ -162,7 +152,6 @@ function getcookie(name) {
 var cart = JSON.parse(getcookie('cart'))
 if (cart == undefined) {
     cart = {}
-    console.log("cart was created")
     document.cookie = "cart=" + JSON.stringify(cart) + ";domain=;path=/"
 }
 
