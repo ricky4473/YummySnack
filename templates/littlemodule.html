@@ -1,169 +1,176 @@
-{% load static %}
+{% load static %} {% for key,value in littleloopdict.items %}
 
-<form  action="/products" method="post">
-<!-- <style>
+<section id="littleLoop" data-aos="fade-up">
+  <div class="container" style="margin-top: 20px; margin-bottom: 20px">
+    <div class="d-flex justify-content-between" style="border-bottom: 3px solid #f90">
+      <p class="p-2" style="background-color: #f90; margin-bottom: 0">{{key}}</p>
 
-  .noscrollbar::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
-}
-</style> -->
-
-  {% for key,value in littleloopdict.items %}
-  
-  <section id="littleLoop">
-    <div class="container">
-      <div class="d-flex justify-content-between">
-        <p class="p-2" style="background-color: #f90">{{key}}</p>
-        
+      {%if request.path != '/products' %}
+      <form action="/products" method="post">
+        {% endif %}
         {% csrf_token %}
-        <p class="p-2">
-          <a class='viewall' >View all
-        <input  type="submit" 
-        name='filterdict' value="{{value.1}}"  hidden>
-      
-      </a>
-          
-        <script>
-  
-          // document.querySelector('.viewall').addEventListener('click',(e)=>{
-          //   if (e.target.tagName=="A"){
-  
-          //     e.target.nextSiblingElement.click()
-          //   }
-          // })
-  
-          
-        </script>
-        </p>
-      </div>
-      <style>
-        .card a {
-          width: 100%;
-        }
-        .card img {
-          width: 100%;
-          height: 324px;
-        }
-        .card-columns {
-          widows: 2;
-        }
-        .breadcrumb {
-          background-color: transparent;
-        }
-        .card {
-          border: none;
-        }
-        .labelc {
-          text-transform: uppercase;
-          position: absolute;
-          top: 7px;
-          left: 20px;
-          display: flex;
-          flex-direction: column;
-        }
-        .product-label {
-          border-radius: 35px;
-          margin-bottom: 10px;
-          max-width: 50px;
-          min-height: 50px;
-          font-size: 12px;
-          padding: 5px 7px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: 700;
-        }
-        .product-label-long {
-      border-radius: 35px;
-      display: inline-table;
-      margin-bottom: 10px;
-      max-width: 35px;
-      min-height: 35px;
-      font-size: 8px;
-      padding: 5px 7px;
-      /* display: flex; */
-      /* align-items: center; */
-      /* justify-content: center; */
-      font-weight: 700;
-    }
-        .list-group li {
-          padding-left: 0;
-          border: 1px solid rgba(0, 0, 0, 0);
-        }
-        
-        
-  
-  
-      </style>
-       
-      <!-- !back later{% if value.0|length >= 5 %}{% endif %} -->
-      <div class="row noscrollbar"  style="flex-wrap: nowrap;overflow: scroll;">
-        <!-- <div class="pt-3"> -->
-          <!-- <div class=""> card-columns -->
-            {% for productloopitem in value.0 %}
-            <div class="col-md-3 mt-3 text-center" style="display: flex;flex-direction: column;"><a href='/products/{{productloopitem.id}}'> <!--card-->
-              <img src={{productloopitem.image}} alt="" style='width: 100%;aspect-ratio: 1/1;' /></a>
-              <!-- label -->
-              <div class="labelc">
-                {% if productloopitem.new %}
-                    <span class="product-label" style="background-color: #438e44">New</span>
-                    {% endif %}
-  
-                    {% if productloopitem.stock <= 0 %}
-                    <span style="background-color: #fff" class="product-label">Sold Out</span>
-  
-                    {% endif %}
-                    {% for key,value in productloopitem.sale.items %}
-                    <span style="background-color: {% cycle '#e32619' '#ff9900'%}" class="product-label-long">{{key}}</span>
-                    
-                    {% endfor %}
-              </div>
-              <div class="card-body" style="display: flex;flex-direction: column;justify-content: space-evenly;">
-                <h4 class="card-title"><a style="font-size: 16px;font-weight: 700;display: -webkit-box;overflow: hidden;-webkit-box-orient:vertical;-webkit-line-clamp:5;" href='/products/{{productloopitem.id}}' title="{{productloopitem.title}}">{{productloopitem.title}}</a></h4>
-                <input type="text" name="rating" value="{{productloopitem.rating}}" hidden>
-                    <h6 class="card-subtitle ratingbox">
-                      <span class="fa fa-star "></span>
-                      <span class="fa fa-star "></span>
-                      <span class="fa fa-star "></span>
-                      <span class="fa fa-star"></span>
-                      <span class="fa fa-star"></span>
-                    </h6>
-                
-                    {% if productloopitem.sale %}
-                    <h7 ><span style='text-decoration:line-through;'>$ {{productloopitem.price}} </span><span style='color:red;font-size:30px'>$ {{productloopitem.saleprice}}</span></h7>
-                    
-                    {% else %}
-                    <h5>$ {{productloopitem.price}}</h5>
-                    {% endif %}
-  
-  
-              </div>
-              {% if productloopitem.stock <= 0 %}
-              <a  class="btn " style='background-color:#808080;color:#fff;'>Sold Out</a>
 
-                {%else%}
-                <a href="#" class="btn update-cart" data-product={{productloopitem.id}} data-action="add" style='background-color:#006600;color:#fff;'>Add to cart</a>
-                {% endif %}
-            </div>
-            {% endfor %}
-            <script>
-              document.querySelectorAll('.ratingbox').forEach(
-                function (item){ 
-                  for(i=1;i<=item.previousElementSibling.value;i++){
-                    item.childNodes[2*i-1].classList.add('checked')
-                  }
-  
-  
-  
-                }
-              )
-            </script>
-          <!-- </div> -->
-        <!-- </div> -->
-      </div>
+        <p class="p-2" style="margin-bottom: 0">
+          <a class="viewall">
+            View all
+            <input type="submit" name="filterdict" value="{{value.1}}" hidden />
+          </a>
+        </p>
+      {%if request.path != '/products' %}
+
+      </form>
+      {% endif %}
+
     </div>
-  </section>
-  
-  {% endfor %}
-  </form>
+    <style>
+      .card a {
+        width: 100%;
+      }
+      .card img {
+        width: 100%;
+        height: 324px;
+      }
+      .card-columns {
+        widows: 2;
+      }
+      .breadcrumb {
+        background-color: transparent;
+      }
+      .card {
+        border: none;
+      }
+      .labelc {
+        text-transform: uppercase;
+        position: absolute;
+        top: 7px;
+        left: 20px;
+        display: flex;
+        flex-direction: column;
+      }
+      .product-label {
+        border-radius: 35px;
+        margin-bottom: 10px;
+        max-width: 50px;
+        min-height: 50px;
+        font-size: 12px;
+        padding: 5px 7px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+      }
+      .product-label-long {
+        border-radius: 35px;
+        display: inline-table;
+        margin-bottom: 10px;
+        max-width: 35px;
+        min-height: 35px;
+        font-size: 8px;
+        padding: 5px 7px;
+        /* display: flex; */
+        /* align-items: center; */
+        /* justify-content: center; */
+        font-weight: 700;
+      }
+      .list-group li {
+        padding-left: 0;
+        border: 1px solid rgba(0, 0, 0, 0);
+      }
+    </style>
+
+    <!-- !back later{% if value.0|length >= 5 %}{% endif %} -->
+    <div class="row noscrollbar" style="flex-wrap: nowrap; overflow: scroll">
+      <!-- <div class="pt-3"> -->
+      <!-- <div class=""> card-columns -->
+      {% for productloopitem in value.0 %}
+      <div class="col-md-3 mt-3 text-center" style="display: flex; flex-direction: column">
+        <a href="/products/{{productloopitem.id}}">
+          <!--card-->
+          <img src="{{productloopitem.image}}" alt="" style="width: 100%; aspect-ratio: 1/1" />
+        </a>
+        <!-- label -->
+        <div class="labelc">
+          {% if productloopitem.new %}
+          <span class="product-label" style="background-color: #438e44">New</span>
+          {% endif %} {% if productloopitem.stock <= 0 %}
+          <span style="background-color: #fff" class="product-label">Sold Out</span>
+
+          {% endif %} {% for key,value in productloopitem.sale.items %}
+          <span style="background-color: {% cycle '#e32619' '#ff9900'%}" class="product-label-long">
+            {{key}}
+          </span>
+
+          {% endfor %}
+        </div>
+        <div
+          class="card-body"
+          style="display: flex; flex-direction: column; justify-content: space-evenly">
+          <h7>{{productloopitem.brand}}</h7>
+          <h4 class="card-title">
+            <a
+              style="
+                font-size: 16px;
+                font-weight: 700;
+                display: -webkit-box;
+                overflow: hidden;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 5;
+              "
+              href="/products/{{productloopitem.id}}"
+              title="{{productloopitem.title}}">
+              {{productloopitem.title}}
+            </a>
+          </h4>
+          <input type="text" name="rating" value="{{productloopitem.rating}}" hidden />
+          <h6 class="card-subtitle ratingbox">
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+          </h6>
+
+          {% if productloopitem.sale %}
+          <h7>
+            <span style="text-decoration: line-through; display: block">
+              $ {{productloopitem.price}}
+            </span>
+            <span style="color: red; font-size: 30px; display: block">
+              $ {{productloopitem.saleprice}}
+            </span>
+          </h7>
+
+          {% else %}
+          <h5>$ {{productloopitem.price}}</h5>
+          {% endif %}
+        </div>
+        {% if productloopitem.stock <= 0 %}
+        <a class="btn" style="background-color: #808080; color: #fff">Sold Out</a>
+
+        {%else%}
+        <a
+          href="#"
+          class="btn update-cart"
+          data-product="{{productloopitem.id}}"
+          data-action="add"
+          style="background-color: #006600; color: #fff; border-radius: 100px">
+          Add to cart
+        </a>
+        {% endif %}
+      </div>
+      {% endfor %}
+      <script>
+        document.querySelectorAll('.ratingbox').forEach(function (item) {
+          for (i = 1; i <= item.previousElementSibling.value; i++) {
+            item.childNodes[2 * i - 1].classList.add('checked')
+          }
+        })
+
+      </script>
+      <!-- </div> -->
+      <!-- </div> -->
+    </div>
+  </div>
+</section>
+
+{% endfor %}

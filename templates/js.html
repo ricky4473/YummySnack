@@ -23,17 +23,13 @@
 
 
 
+  document.querySelectorAll('.viewall').forEach(item => {
+          item.addEventListener('click', e => {
+            item.childNodes[1].click()
+          },1)
+        })
 
-
-  document.querySelectorAll('.viewall').forEach(
-            item=>{
-              item.addEventListener('click',(e)=>{
-                e.preventDefault
-                item.childNodes[1].click()
-              })
-            }
   
-          )
 
 
 
@@ -155,5 +151,6 @@ if (cart == undefined) {
     document.cookie = "cart=" + JSON.stringify(cart) + ";domain=;path=/"
 }
 
+AOS.init();
 
 </script>

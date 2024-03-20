@@ -314,11 +314,12 @@
 
                   {% endif %}
                   {% for key,value in product.sale.items %}
-                  <span style="background-color: {% cycle '#e32619' '#ff9900'%}" class="product-label-long">{{key}}</span>
+                  <span style="background-color: {% cycle '#e32619' '#ff9900' %}" class="product-label-long">{{key}}</span>
                   
                   {% endfor %}
                 </div>
                 <div class="card-body" style="display: flex;flex-direction: column;justify-content: space-evenly;">
+                  <h7>{{product.brand}}</h4>
                   <h4 class="card-title"><a style="font-size: 16px;font-weight: 700;display: -webkit-box;overflow: hidden;-webkit-box-orient:vertical;-webkit-line-clamp:5;" href={% url "product" product.id %} title="{{product.title}}">{{product.title}}</a></h4>
                   <input type="text" name="rating" value="{{product.rating}}" hidden>
                   <h6 class="card-subtitle ratingbox">
@@ -343,9 +344,13 @@
               </div>
               {% endfor %}
 
-              {% if  productslength == 0 %}
-             <p>No product yet.</p> 
+              {% if  productslength <= 0 %}
+             <p style="margin:auto;font-size:50px">No product yet.</p> 
+             <p style="margin:auto;font-size:50px;text-align: center;">Our Promotion here!!!</p> 
+  {% include "littlemodule.html" %}
+
               {% endif %}
+              
             <!-- </div> -->
           <!-- </div> -->
           <script>
@@ -378,10 +383,6 @@
             }
 
           })
-          // const colcount=item.classList.contains('col-md-')
-          // console.log(colcount);
-          // item.classList.remove(colcount)
-          // console.log(svgnum);
           item.classList.add(`col-md-${svgnum}`)
           })
           }
@@ -427,6 +428,7 @@
   submit=document.querySelector('#querysubmit')
   document.querySelectorAll('.triggerform').forEach(item=>{
     item.addEventListener('change',()=>{
+      console.log(222)
       submit.click()})
 
   })

@@ -97,14 +97,14 @@
         <hr />
 
         <script>
-
-    document.querySelector('#caeform').addEventListener('submit',function(e){
-        e.preventDefault()
-      axios({
+          document.querySelector('#caeform').addEventListener('submit', function (e) {
+            e.preventDefault()
+            axios({
               url: this.action,
               method: 'post',
-              data:new FormData(this)
-            }).then(res=>{console.log(res);
+              data: new FormData(this),
+            }).then(res => {
+              console.log(res)
               this.innerHTML = `<h3><i>Editing Address</i></h3>
 <hr><p >Address Type:<span style='color:red;'>${res.data.row_obj_dict.type}</span></p><p id="shipdicttitle">Edit Address:${res.data.row_obj_dict.title}</p>${res.data.form}  <hr />
 <input
@@ -112,10 +112,9 @@
   style="background-color: #ee3322"
   class="text-white btn btn-block"
   value="Save change" />`
-                  // document.querySelector('.errorlist').style
-            
+              // document.querySelector('.errorlist').style
             })
-              })
+          })
           const shipbillfn = function () {
             axios({
               url: `/checkout/address/edit/${this.value}`,
@@ -130,7 +129,6 @@
   class="text-white btn btn-block"
   value="Save change" />`
               document.querySelector('#caeform').action = `/checkout/address/edit/${this.value}`
-              
             })
           }
           document.querySelectorAll('#shippingselect , #billingselect').forEach(item => {
@@ -155,11 +153,6 @@
           value="Continue" />
 
         <div class="box-element hidden" id="payment-info" style="margin: auto">
-          <small>Paypal Option</small>
-          <!--paybutton-->
-          <!-- <button class="btn" style="background-color:#2e9900; color:white" id="make-payment">Payment</button>-->
-          <div id="paypal-button-container" style="padding-left: 140px"></div>
-
           <div class="" style="display: flex; justify-content: center">
             <button class="mt-2 btn" style="margin: auto" onclick="gotoPay(event)">
               Pay by Stripe
@@ -201,36 +194,6 @@
       })
   }
 </script>
-<script src="https://www.paypal.com/sdk/js?client-id=AeoDE0HpLIHm9c85eO6bJlhi_syzxf-GVJzjhhNlgFXvvVBoyOvLo9pWZbfdXT1Cn1s6qB24ss75FfQT&currency=HKD"></script>
-
-<!-- AeoDE0HpLIHm9c85eO6bJlhi_syzxf-GVJzjhhNlgFXvvVBoyOvLo9pWZbfdXT1Cn1s6qB24ss75FfQT -->
-<script>
-  paypal
-    .Buttons({
-      style: {
-        color: 'silver',
-        shape: 'pill',
-      },
-
-      createOrder: function (data, actions) {
-        return actions.order.create({
-          purchase_units: [
-            {
-              amount: {
-                value: parseFloat(total).toFixed(2),
-              },
-            },
-          ],
-        })
-      },
-      onApprove: function (data, actions) {
-        return actions.order.capture().then(function (details) {
-          submitformdata()
-        })
-      },
-    })
-    .render('#paypal-button-container')
-</script>
 
 <!--stripe-->
 <script src="https://js.stripe.com/v3/"></script>
@@ -240,17 +203,17 @@
     const data = new FormData(form)
     data.append('total', total)
     for (var pair of data.entries()) {
-    // console.log(pair[0]+ ', ' + pair[1]); 
-}
+      // console.log(pair[0]+ ', ' + pair[1]);
+    }
     const stripe = Stripe('{{pub_key}}')
     axios({
       url: '/processorder/',
       method: 'post',
-      data:data,
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'X-CSRFToken': '{{csrf_token}}',
-    //   },
+      data: data,
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'X-CSRFToken': '{{csrf_token}}',
+      //   },
     })
       .then(res => {
         return stripe.redirectToCheckout({ sessionId: res.data.session.id })

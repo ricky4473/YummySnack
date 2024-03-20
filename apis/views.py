@@ -5,7 +5,8 @@ from .serializers import *
 from pages.models import *
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password
-
+from orders.models import Order
+from accounts.models import User
 import json
 # Create your views here.
 

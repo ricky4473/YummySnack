@@ -28,9 +28,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
-    # "django_browser_reload",
+    "django_browser_reload",
     'pages.apps.PagesConfig',
     'apis.apps.ApisConfig',
+    'products.apps.ProductsConfig',
+    'accounts.apps.AccountsConfig',
+    'orders.apps.OrdersConfig',
     'corsheaders',
     'rest_framework',
 ]
@@ -50,7 +53,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 'yummyyummy.middleware.auth.AuthMiddleware',
-    # "django_browser_reload.middleware.BrowserReloadMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
     "yummyyummy.middleware.online_count.OnlineCountMiddleware",
     "yummyyummy.middleware.online_count.IPtoDBMiddleware",
     "corsheaders.middleware.CorsMiddleware",
@@ -93,7 +96,7 @@ WSGI_APPLICATION = 'yummyyummy.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'yummymerge',
+        'NAME': 'yummysnack',
         'USER': 'postgres',
         'PASSWORD': '12p7',
     }
@@ -149,7 +152,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'pages.User'
+AUTH_USER_MODEL = 'accounts.User'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.mailgun.org'

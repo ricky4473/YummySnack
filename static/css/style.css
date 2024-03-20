@@ -132,4 +132,5 @@ li{
 
 .viewall:hover{
     text-decoration: underline!important;
+    cursor: pointer!important;
 }
