@@ -3,12 +3,12 @@ import stripe
 from django.conf import settings
 from django.core.mail import EmailMessage
 
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth import authenticate, login, logout
 from django.utils import timezone
-from django.http.response import JsonResponse,HttpResponseBadRequest
+from django.http.response import JsonResponse, HttpResponseBadRequest
 from django.forms import modelformset_factory
 from orders.models import *
 from yummyyummy.utils.viewsclass import *
@@ -24,9 +24,9 @@ def accounts(request):
         if form.is_valid():
 
             forminstance = form.save(commit=False)
-            if form.cleaned_data.get('password', 0):
+            if form.cleaned_data.get('password', '') != '' :
                 forminstance.password = make_password(
-                    form.cleaned_data.get('newpassword', 0))
+                    form.cleaned_data.get('newpassword'))
             else:
                 forminstance.password = tmppass
             forminstance.save()
@@ -99,7 +99,6 @@ def accounts_address_delete(request, nid):
     return redirect('address')
 
 
-
 def accounts_login(request):
     if request.method == "POST":
         email = request.POST.get('email')
@@ -138,7 +137,7 @@ def accounts_login(request):
 
 def accounts_register(request):
     AddressFromSet = modelformset_factory(Address, exclude=[
-            "user", "priority", "type"], extra=2, form=BootStrapModelForm, formset=MyFormSet)
+        "user", "priority", "type"], extra=2, form=BootStrapModelForm, formset=MyFormSet)
     if request.method == "POST":
 
         form = UserModelForm(data=request.POST)
@@ -203,7 +202,6 @@ def accounts_reset(request):
     context = {}
     return render(request, 'accounts/reset.html', context)
 
-
 @login_required
 def accounts_membership(request):
     # stripe part
@@ -224,8 +222,8 @@ def accounts_membership(request):
             payment_method_types=['card'],
             line_items=items,
             mode='payment',
-            success_url='http://167.172.68.96/payment/success',
-            cancel_url='http://167.172.68.96/payment/fail',
+            success_url=f'http://{request.get_host()}/payment/success',
+            cancel_url=f'http://{request.get_host()}/payment/fail',
         )
         payment_intent = session.payment_intent
         user = request.user

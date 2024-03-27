@@ -25,7 +25,7 @@
               <tr>
                 <th scope="row">{{item.id}}</th>
                 <td>{{item.get_status_display}}</td>
-                <td>{{item.created}}</td>
+                <td>{{item.paid_time}}</td>
                 <td>$ {{item.total}}</td>
               </tr> {% endfor %}
               {% if not proces_orders %}
@@ -54,7 +54,7 @@
               <tr>
                 <th scope="row"><a href={%url 'order' obj.id %}>{{obj.id}}</a></th>
                 <td>{{obj.get_status_display}}</td>
-                <td>{{obj.created}}</td>
+                <td>{{obj.paid_time}}</td>
                 <td>${{obj.total}}</td>
               </tr>
             </tbody>

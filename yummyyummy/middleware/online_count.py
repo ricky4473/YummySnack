@@ -27,6 +27,8 @@ class OnlineCountMiddleware(MiddlewareMixin):
         cache.set('onlineiplist',onlineiplist)
         return
 
+#[{},{},{},...]
+#[{"192.168.0.1":0},{"onlineiplist":["192.168.0.1"]}]
 def iplist():
     onlineiplist=cache.get('onlineiplist',[])
 

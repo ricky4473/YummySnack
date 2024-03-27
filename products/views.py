@@ -16,7 +16,6 @@ def products(request):
     productorderdict = {"best-selling": ("sale_rank", "Best selling"), "title-ascending": ("name", "Alphabetically, A-Z"), "title-descending": ("-name", " Alphabetically, Z-A"), "price-ascending": (
         "price", "Price, low to high"), "price-descending": ("-price", "Price, high to low"), "created-ascending": ("id", "Date, old to new"), "created-descending": ("-id", " Date, new to old")}
     if request.method == "POST":
-        print(request.POST)
         cid = request.POST.get('cid', 0)
         bid = request.POST.getlist('bid')  # list
         pricerange = request.POST.get('pricerange', 0)
@@ -82,9 +81,13 @@ def products(request):
         page = request.POST.get('page', 1)
         pagecode = Pagenation(request, Product.objects.filter(
             **productfilterdict).order_by(productorder), page_size=show)
-        # print(pagecode.html())
+        
 
-        # .filter(brand__id__in=[1,2]    .filter(brand__id__in=previousbrand)    .filter(brand__id=bid)
+        #{"brand__id__in":[1,2],"product_class__id":"id_cate_3"}
+        
+        #.filter(**{"brand__id__in":[1,2],"product_class__id":"id_cate_3"})
+
+        # .filter(brand__id__in    .filter(brand__id__in=previousbrand)    .filter(brand__id=bid)
         filteredpl = productslist(pagecode.page_queryset)
         bl = Brand.objects.all()
         context = {"products": filteredpl, 'productslength': len(filteredpl), 'class': productclass, 'brands': bl, 'previousbrand': previousbrand, 'previouscate': previouscate,

@@ -1,5 +1,5 @@
 {% load static %}
-<section id="top-bar" class="sticky-top bg-light" >
+<section id="top-bar" class="sticky-top bg-light" style="opacity: 0.97;" >
     <!-- <div  style="height: 30px;border-bottom: 1px solid #ddd;"> -->
       <p id="toptitle" class="text-center" style="padding: 6px 0 ;border-bottom: 1px solid #ddd;margin-bottom: 0;">FREE SHIPPING</p>
     <!-- </div> -->
@@ -7,7 +7,7 @@
     <nav class="navbar navbar-expand-md navbar-light bg-light" >
       <div class="container" style="justify-content: center;">
         <a href="/" class="navbar-brand" >Yummy Snack
-          <img src="/static/img/wallpage-img/logo.gif" style="height: 70px;" alt="">
+          <img src="/static/img/wallpage-img/859354.png" style="height: 70px;" alt="">
         </a>
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
@@ -140,6 +140,14 @@
           e.target.nextElementSibling.classList.add('show')
 }
         })
+        document.querySelector('.nav').addEventListener('mouseleave',()=>{
+          document.querySelectorAll('.dropdown-menu').forEach(item=>{
+            item.previousElementSibling.classList.remove('newgray')
+            item.classList.remove('show')
+        })
+        })
+
+
         //out-part
         document.querySelectorAll('.dropdown-menu').forEach(item=>{
           item.addEventListener('mouseleave',e=>{

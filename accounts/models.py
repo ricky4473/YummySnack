@@ -76,7 +76,7 @@ class User(AbstractBaseUser, PermissionsMixin):
             allordertotal += float(obj.total or 0)
 
         # ,self.order_set.filter(cartcomplete=True).aggregate(Sum("total"))
-        return self.order_set.filter(cartcomplete=True).count(), allordertotal
+        return self.order_set.filter(cartcomplete=True).count(), round(allordertotal,2)
 
 
 class Address(models.Model):

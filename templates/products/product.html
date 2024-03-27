@@ -77,7 +77,7 @@
 
             {% if product.stock <= 0 %}
             <span style="background-color: #fff" class="product-label">Sold Out</span>
-
+            <!-- <script>document.querySelector('.productimg').style.grayscale=1</script> -->
             {% endif %}
             {% for key,value in product.sale.items %}
             <span style="background-color: {% cycle '#e32619' '#2e9900'%}" class="product-label">{{key}}</span>

@@ -86,7 +86,7 @@
       <div class="col-md-3 mt-3 text-center" style="display: flex; flex-direction: column">
         <a href="/products/{{productloopitem.id}}">
           <!--card-->
-          <img src="{{productloopitem.image}}" alt="" style="width: 100%; aspect-ratio: 1/1" />
+          <img src="{{productloopitem.image}}" {% if productloopitem.stock <= 0 %}  id="id-{{productloopitem.id}}" {%endif%} class='productimg' style="width: 100%; aspect-ratio: 1/1" />
         </a>
         <!-- label -->
         <div class="labelc">
@@ -94,6 +94,8 @@
           <span class="product-label" style="background-color: #438e44">New</span>
           {% endif %} {% if productloopitem.stock <= 0 %}
           <span style="background-color: #fff" class="product-label">Sold Out</span>
+          <script>
+            document.querySelector('#id-{{productloopitem.id}}').style.filter='grayscale(1)'    </script>
 
           {% endif %} {% for key,value in productloopitem.sale.items %}
           <span style="background-color: {% cycle '#e32619' '#ff9900'%}" class="product-label-long">
@@ -145,7 +147,7 @@
           {% endif %}
         </div>
         {% if productloopitem.stock <= 0 %}
-        <a class="btn" style="background-color: #808080; color: #fff">Sold Out</a>
+        <a class="btn" style="background-color: #808080; color: #fff;border-radius:30px;">Sold Out</a>
 
         {%else%}
         <a

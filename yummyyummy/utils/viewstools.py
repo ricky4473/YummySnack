@@ -78,7 +78,7 @@ def cookiecartdecorator(func):
         if len(changex) > 2:
             changex[2] = {**x[2], **cookiecart(x[0]),**obj}
         else:
-            changex.append(cookiecart(x[0]),**obj)
+            changex.append({**cookiecart(x[0]),**obj})
         x = tuple(changex)
         value = func(*x, **y)
         return value

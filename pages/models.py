@@ -2,6 +2,11 @@ from django.db import models
 from django.utils.translation import ugettext as _
 from orders.models import Order
 
+class Banner(models.Model):
+    name=models.CharField(_("name"), max_length=50)
+    image=models.ImageField(_("image"))
+    is_show=models.BooleanField(_("is_show"),default=True)
+
 class VisitorIP(models.Model):
     ip = models.CharField(max_length=30, verbose_name='IP Address')
     location = models.CharField(max_length=30)

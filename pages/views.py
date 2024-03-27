@@ -27,7 +27,8 @@ from accounts.models import User, Address
 render = cookiecartdecorator(render)
 
 
-threading.Timer(24*60*60, totalsoldlist)
+# threading.Timer(24*60*60, totalsoldlist)
+# totalsoldlist()
 # Main View
 
 
@@ -58,12 +59,14 @@ def index(request):
 
         littleloopdict[item.title] = productslist(
             Product.objects.filter(**filterdict).order_by('sale_rank')), filterdict
-
-    context = {"littleloopdict": littleloopdict}
+    # print(models.Banner.objects.filter(is_show=True))
+    context = {"littleloopdict": littleloopdict,'bannerlist':models.Banner.objects.filter(is_show=True)}
     return render(request, 'pages/index.html', context)
 
 
 def about(request):
+    totalsoldlist()
+
     def myyfun():
         randompic = ["product/D-PlusSweetBread-BlueberryFlavor2.82oz_80g__front.webp",
                      "product/D-PlusSweetBread-StrawberryFlavor2.82oz_80g__front.webp",
@@ -141,7 +144,7 @@ def management(request):
 
     # total sale
     totalyearsale = 0
-    for obj in Order.objects.filter(paid_time__year=2023, cartcomplete=True):
+    for obj in Order.objects.filter(paid_time__year=2024, cartcomplete=True):
         totalyearsale += float(obj.total or 0)
     totalyearsale = round(totalyearsale, 2)
     orderoverviewdict = {"label": ["處理中", "已發貨", "已完成"], "data": [0, 0, 0]}
@@ -158,7 +161,7 @@ def management(request):
         month = n
         monthsaledict['label'].append(n)
         monthsale = 0
-        for obj in Order.objects.filter(Q(paid_time__year=2023) & Q(paid_time__month=n)):
+        for obj in Order.objects.filter(Q(paid_time__year=2024) & Q(paid_time__month=n)):
             monthsale += float(obj.total or 0)
         monthsale = round(monthsale, 2)
         monthsaledict['data'].append(monthsale)
@@ -343,8 +346,10 @@ def processorder(request):
         tmpdict = {"payment_method_types": ['card'],
                    "line_items": finalitems,
                    "mode": 'payment',
-                   "success_url": 'http://167.172.68.96/payment/success',
-                   "cancel_url": 'http://167.172.68.96/payment/fail', }
+                    "success_url":f'http://{request.get_host()}/payment/success',
+            "cancel_url":f'http://{request.get_host()}/payment/fail',
+        
+                   }
 
         stripe.api_key = settings.STRIPE_SECRET_KEY
         if percent_off.get('percent_off'):

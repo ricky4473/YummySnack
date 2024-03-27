@@ -7,7 +7,7 @@
 </style>
 
 <div class="row pt-3 mt-5">
-  <div class="col-lg-4 pr-5" >
+  <div class="col-lg-4 pr-5" data-aos="fade-right" data-aos-delay="300">
     <h1 class="text-uppercase">My account</h1>
     <div class="alert info-box" style='display:none'></div>
     <ul class="list-group list-group-flush">
@@ -15,9 +15,9 @@
       <li class="list-group-item"><a href={% url 'accounts' %}>Account details</a></li>
       <li class="list-group-item"><a href={% url 'address' %}>Addresses</a></li>
       <li class="list-group-item"><a href={% url 'membership'  %}>Membership</a></li>
-      {% if user.is_authenticated %}<li class="list-group-item logout"><a href="#"}>Logout</a></li>{% endif %}
       {% if user.is_superuser %}<li class="list-group-item"><a href={% url 'management'  %}>Management</a></li>{% endif %}
       {% if user.is_superuser %}<li class="list-group-item"><a href="/admin"  %}>Admin</a></li>{% endif %}
+      {% if user.is_authenticated %}<li class="list-group-item logout"><a href="#"}>Logout</a></li>{% endif %}
       
       <script>
 

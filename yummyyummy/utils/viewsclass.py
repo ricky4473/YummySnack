@@ -52,6 +52,7 @@ class UserEditModelForm(BootStrapModelForm):
 
     def clean_password(self):
         password = self.cleaned_data.get('password', False)
+
         if password and not check_password(password, self.instance.password):
             raise ValidationError('請輸入正確舊密碼')
         return password
@@ -61,6 +62,7 @@ class UserEditModelForm(BootStrapModelForm):
         newpassword = self.cleaned_data.get('newpassword', False)
         if newpassword and (newpassword != newpasswordconfirm):
             raise ValidationError('密碼不一致')
+        
         return newpasswordconfirm
 
 

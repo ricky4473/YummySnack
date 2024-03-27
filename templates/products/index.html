@@ -70,7 +70,7 @@
     <div class="row">
       <form method="post" style="display: flex;">
       {% csrf_token %}
-      <div class="mt-5 pt-3 col-lg-4">
+      <div class="mt-5 pt-3 col-lg-4" data-aos="fade-right" data-aos-delay="300">
         <h1 class="text-uppercase">categories</h1>
         <ul class="list-group list-group-flush categorieslist">
           
@@ -156,7 +156,7 @@
       
     
 
-      <div class="col-lg-8">
+      <div class="col-lg-8" data-aos="fade-up" data-aos-delay="300">
         <div class="row mt-5 pt-3">
           <div class="col-lg-5">
             <nav class="" aria-label="breadcrumb">
@@ -292,7 +292,7 @@
             padding: 1.25rem 0;
           }
         </style>
-        <div class="row productcase">
+        <div class="row productcase myfadeout">
           <!-- <div class="pt-3"> -->
             <!-- <div class=""> card-columns -->
               <style>
@@ -302,7 +302,7 @@
               </style>
               {% for product in products %}
               <div class="col-md-3 mt-3 text-center" style="display: flex;flex-direction: column;"><a href={% url "product" product.id %}> <!--card-->
-                <img src={{product.image}} alt="" style='width: 100%;aspect-ratio: 1/1;' /></a>
+                <img src={{product.image}} {% if product.stock <= 0 %}  id="id-{{product.id}}" {%endif%} class='productimg' style='width: 100%;aspect-ratio: 1/1;' /></a>
                 <!-- label -->
                 <div class="labelc">
                   {% if product.new %}
@@ -311,7 +311,8 @@
 
                   {% if product.stock <= 0 %}
                   <span style="background-color: #fff" class="product-label">Sold Out</span>
-
+                  <script>
+                    document.querySelector('#id-{{product.id}}').style.filter='grayscale(1)'    </script>
                   {% endif %}
                   {% for key,value in product.sale.items %}
                   <span style="background-color: {% cycle '#e32619' '#ff9900' %}" class="product-label-long">{{key}}</span>
@@ -330,7 +331,7 @@
                     <span class="fa fa-star"></span>
                   </h6>
                   {% if product.sale %}
-                  <h7 ><span style='text-decoration:line-through;'>$ {{product.price}} </span><span style='color:red;font-size:30px;white-space: nowrap;'>$ {{product.saleprice}}</span></h7>
+                  <h7 ><span style='text-decoration:line-through;display:block;'>$ {{product.price}} </span><span style='color:red;font-size:30px;white-space: nowrap;'>$ {{product.saleprice}}</span></h7>
                   
                   {% else %}
                   <h5>$ {{product.price}}</h5>
@@ -338,8 +339,19 @@
                   
                 </div>
 
-              <a href="#" class="btn update-cart" data-product={{product.id}} data-action="add" style='background-color:#006600;color:#fff;'>Add to cart</a>
-
+              {% if product.stock <= 0 %}
+              <a class="btn" style="background-color: #808080; color: #fff;border-radius:30px;">Sold Out</a>
+      
+              {%else%}
+              <a
+                href="#"
+                class="btn update-cart"
+                data-product="{{product.id}}"
+                data-action="add"
+                style="background-color: #006600; color: #fff; border-radius: 100px">
+                Add to cart
+              </a>
+              {% endif %}
 
               </div>
               {% endfor %}
@@ -374,17 +386,32 @@
           // if(e.target.tagName=='SVG'){
           if(e.target.closest("SVG")){
            const svgnum= e.target.closest("SVG").dataset.num
-           document.querySelectorAll('.productcase>div').forEach(item=>{
+            document.querySelector('.productcase').classList.add('myhidden')
+            setTimeout(()=>{
+              
+              
+              
+              
+              document.querySelectorAll('.productcase>div').forEach(item=>{
 
 
-          ;['6','4','3'].forEach(inneritem=>{
-            if(item.classList.contains(`col-md-${inneritem}`)){
-              item.classList.remove(`col-md-${inneritem}`)
-            }
+;['6','4','3'].forEach(inneritem=>{
+  if(item.classList.contains(`col-md-${inneritem}`)){
+    item.classList.remove(`col-md-${inneritem}`)
+  }
 
-          })
-          item.classList.add(`col-md-${svgnum}`)
-          })
+})
+
+item.classList.add(`col-md-${svgnum}`)
+
+})
+              document.querySelector('.productcase').classList.remove('myhidden')
+
+
+
+},300)
+
+           
           }
 
           

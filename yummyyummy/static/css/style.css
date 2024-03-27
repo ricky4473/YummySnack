@@ -133,4 +133,26 @@ li {
 
 .viewall:hover {
   text-decoration: underline !important;
+  cursor:pointer;
 }
+
+
+.myfadeout{
+  transition: opacity .3s linear;
+}
+
+.myhidden{
+  opacity: 0;
+}
+
+.productimg:hover{
+ opacity: 0.8;
+}
+
+.noscrollbar::-webkit-scrollbar{
+background:transparent;
+}
+
+
+
+
